@@ -10,6 +10,7 @@ package pieces;
  */
 public interface Piece {
 	
-	public abstract void move();
+	public abstract void move(String oldPos, String newPos);
+	public abstract boolean isPathEmpty(String oldPos, String newPos);
 
 }

@@ -11,9 +11,15 @@ package pieces;
 public class Queen implements Piece {
 
 	@Override
-	public void move() {
+	public void move(String oldPos, String newPos) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean isPathEmpty(String oldPos, String newPos) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
