@@ -19,7 +19,7 @@ public class Rook implements Piece {
 		String piece_newPos = Chess.board.get(newPos);
 		
 		/*to check if newPos is a box in the bounds of the board*/
-		if(Chess.board.containsKey(oldPos) == false) {
+		if(Chess.board.containsKey(newPos) == false) {
 			System.out.println("Illegal move, try again");
 		}
 		
@@ -109,14 +109,14 @@ public class Rook implements Piece {
 			char letteroldPos = oldPos.charAt(0);
 			char letternewPos = newPos.charAt(0);
 			
-			if(letteroldPos < letternewPos) { //going right	
+			if(letteroldPos < letternewPos) { //going right for white, left for black	
 				for (letter = (char)(letteroldPos+1) ; letter < letternewPos ; letter++) {
 					if(!(isBoxEmpty(letter, oldPos.charAt(1)-'0'))) {
 						return false;
 					}
 				}
 			}
-			else { //going left
+			else { //going left for white, right for black
 				for (letter = (char)(letternewPos+1) ; letter < letteroldPos ; letter++) {
 					if(!(isBoxEmpty(letter, oldPos.charAt(1)-'0'))) {
 						return false;
