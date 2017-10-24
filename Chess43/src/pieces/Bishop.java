@@ -26,11 +26,11 @@ public class Bishop implements Piece{
 		}
 		
 		//to check if valid move for a bishop:
-		if((Math.abs(oldPos.charAt(0) - newPos.charAt(0)) == Math.abs (oldPos.charAt(1)-'0' - newPos.charAt(1)-'0')) && !(oldPos.equals(newPos))) {
+		if((Math.abs((int)oldPos.charAt(0) - (int)newPos.charAt(0)) == Math.abs (oldPos.charAt(1)-'0' - newPos.charAt(1)-'0')) && !(oldPos.equals(newPos))) {
 			
 			//to check if the newPos is empty:
 			if(Chess.board.get(newPos).equals("  ") || Chess.board.get(newPos).equals("##")) {
-				if(isPathEmpty(oldPos, newPos)) {                //TODO isPathEmpty for Bishop
+				if(isPathEmpty(oldPos, newPos)) {                
 					Chess.board.put(newPos, piece_oldPos);
 					
 					if(Chess.isBlackBox(oldPos.charAt(0), oldPos.charAt(1))) {
@@ -85,8 +85,6 @@ public class Bishop implements Piece{
 
 	@Override
 	public boolean isPathEmpty(String oldPos, String newPos) {
-		//TODO
-		
 		List<String> boxes=getIndicesInBetween(oldPos, newPos);
 		
 		for (String index:boxes) {
