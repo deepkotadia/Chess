@@ -30,7 +30,7 @@ public class Pawn implements Piece {
 		
 		if(piece_oldPos.charAt(0) == 'w') { //piece is white
 			if(newPosnum <= oldPosnum) {
-				System.out.println("Illegal move, try again"); //pawn cannot move backwards
+				System.out.println("Illegal move, try again"); //pawn cannot move backwards or stay at same place
 				return;
 			}
 			
@@ -54,6 +54,10 @@ public class Pawn implements Piece {
 					Chess.board.put(oldPos, "  ");
 				}
 				
+				if(newPosnum == 8) {
+					pawn_promotion(newPosalpha, newPosnum);
+				}
+				
 			}
 			
 			if(Math.abs(newPosnum - oldPosnum) == 2) { //two steps, has to be in first move
@@ -66,7 +70,7 @@ public class Pawn implements Piece {
 					return;
 				}
 				
-				//just move
+				//move ahead two steps
 				Chess.board.put(newPos, piece_oldPos);
 				
 				if(Chess.isBlackBox(oldPosalpha, oldPosnum)) {
@@ -77,7 +81,7 @@ public class Pawn implements Piece {
 				}
 			}
 			else if(Math.abs(newPosnum - oldPosnum) == 1) { //one step move straight
-				//just move
+				//move one step
 				Chess.board.put(newPos, piece_oldPos);
 				
 				if(Chess.isBlackBox(oldPosalpha, oldPosnum)) {
@@ -85,6 +89,10 @@ public class Pawn implements Piece {
 				}
 				else {
 					Chess.board.put(oldPos, "  ");
+				}
+				
+				if(newPosnum == 8) {
+					pawn_promotion(newPosalpha, newPosnum);
 				}
 				
 			}
@@ -116,6 +124,11 @@ public class Pawn implements Piece {
 				else {
 					Chess.board.put(oldPos, "  ");
 				}
+				
+				if(newPosnum == 1) {
+					pawn_promotion(newPosalpha, newPosnum);
+				}
+				
 			}
 			
 			if(Math.abs(newPosnum - oldPosnum) == 2) { //two steps, has to be in first move
@@ -128,7 +141,7 @@ public class Pawn implements Piece {
 					return;
 				}
 				
-				//just move
+				//move ahead two steps
 				Chess.board.put(newPos, piece_oldPos);
 				
 				if(Chess.isBlackBox(oldPosalpha, oldPosnum)) {
@@ -148,6 +161,11 @@ public class Pawn implements Piece {
 				else {
 					Chess.board.put(oldPos, "  ");
 				}
+				
+				if(newPosnum == 1) {
+					pawn_promotion(newPosalpha, newPosnum);
+				}
+				
 			}
 			else {
 				System.out.println("Illegal move, try again"); //pawn cannot move more than two steps
@@ -189,6 +207,11 @@ public class Pawn implements Piece {
 		}
 		
 		return false;
+	}
+	
+	
+	private void pawn_promotion(char newPosalpha, int newPosnum) {
+		//TODO
 	}
 	
 
