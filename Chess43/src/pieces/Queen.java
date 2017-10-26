@@ -16,18 +16,19 @@ import chess.Chess;
 public class Queen extends Piece {
 
 	//@Override
-	public static void move(String oldPos, String newPos) {
+	public static boolean move(String oldPos, String newPos) {
 		String piece_oldPos = Chess.board.get(oldPos);
 		String piece_newPos = Chess.board.get(newPos);
 		
 		/*to check if newPos is a box in the bounds of the board*/
 		if(Chess.board.containsKey(newPos) == false) {
-			System.out.println("Illegal move, try again");
+			//System.out.println("Illegal move, try again");
+			return false;
 		}
 		
 		/*to check if valid move for Queen (combination of rook and bishop */
 		
-		if(  (oldPos.charAt(0)==newPos.charAt(1) || oldPos.charAt(1) == newPos.charAt(1)) ||       
+		if(  (oldPos.charAt(0)==newPos.charAt(0) || oldPos.charAt(1) == newPos.charAt(1)) ||       
 				(Math.abs( (int) oldPos.charAt(0) - (int)newPos.charAt(0) ) == Math.abs((oldPos.charAt(1)-'0') - 
 						(newPos.charAt(1)-'0')) ) && !(oldPos.equals(newPos))){
 			
@@ -42,11 +43,13 @@ public class Queen extends Piece {
 					else {
 						Chess.board.put(oldPos, "  ");
 					}
+					return true;
 				}
 				
 				else {
-					System.out.println("Illegal move, try again");
+					//System.out.println("Illegal move, try again");
 					//need to prompt user to dry a different valid move. 
+					return false;
 				}
 			}     //End of if the new pos is empty.
 			
@@ -54,7 +57,8 @@ public class Queen extends Piece {
 			/*when new pos is not empty: */
 			else {
 				if(piece_oldPos.charAt(0)==piece_newPos.charAt(0)) {
-					System.out.println("Illegal move, try again");          //piece color is the same	
+					//System.out.println("Illegal move, try again");          //piece color is the same	
+					return false;
 				}
 				
 				else {
@@ -67,13 +71,12 @@ public class Queen extends Piece {
 						else {
 							Chess.board.put(oldPos, "  ");
 						}
-						
-						//kill process TODO; check the state of the board here. 	
+						return true;
 					}
 					else {
-						        //path is not empty
-						System.out.println("Illegal move, try again");
-						
+						//path is not empty
+						//System.out.println("Illegal move, try again");
+						return false;
 					}
 				}
 			}
@@ -82,7 +85,8 @@ public class Queen extends Piece {
 		
 		
 		else {                                                //not a valid move for Queen
-			System.out.println("Illegal move, try again");
+			//System.out.println("Illegal move, try again");
+			return false;
 		}	
 					
 	}

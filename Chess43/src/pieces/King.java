@@ -12,14 +12,14 @@ import chess.Chess;
  */
 public class King extends Piece{
 
-	public static void move(String oldPos, String newPos) {
+	public static boolean move(String oldPos, String newPos) {
 		// TODO
 		String piece_oldPos = Chess.board.get(oldPos);
 		String piece_newPos = Chess.board.get(newPos);
 		
 		/*to check if newPos is a box in the bounds of the board*/
 		if(Chess.board.containsKey(newPos) == false) {
-			System.out.println("Illegal move, try again");
+			return false;
 		}
 		
 		/*to check if Valid move for king*/
@@ -40,12 +40,13 @@ public class King extends Piece{
 					else {
 						Chess.board.put(oldPos, "  ");
 					}
+					return true;
 					
 				}
 				
 				else {
-					System.out.println("Illegal move, try again");
 					//need to prompt user to dry a different valid move. 
+					return false;
 				}
 				
 			}
@@ -54,7 +55,7 @@ public class King extends Piece{
 			else {
 				
 				if(piece_oldPos.charAt(0)==piece_newPos.charAt(0)) {
-					System.out.println("Illegal move, try again");  //piece color is the same	
+					return false;  //piece color is the same	
 				}
 				
 				else {
@@ -68,11 +69,12 @@ public class King extends Piece{
 							Chess.board.put(oldPos, "  ");
 						}
 						
+						return true;
 						//kill process TODO; check the state of the board here. 	
 					}
 					else {
 						//path is not empty
-						System.out.println("Illegal move, try again");
+						return false;
 						
 					}
 				}
@@ -84,7 +86,7 @@ public class King extends Piece{
 		}
 		
 		else {   //illegal move for Bishop
-			System.out.println("Illegal move, try again");
+			return false;
 		}	
 		
 		

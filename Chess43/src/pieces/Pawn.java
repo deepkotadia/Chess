@@ -13,7 +13,7 @@ import chess.Chess;
 public class Pawn extends Piece {
 
 	//@Override
-	public static void move(String oldPos, String newPos) {
+	public static boolean move(String oldPos, String newPos) {
 		
 		String piece_oldPos = Chess.board.get(oldPos);
 		String piece_newPos = Chess.board.get(newPos);
@@ -24,24 +24,24 @@ public class Pawn extends Piece {
 		
 		/*to check if newPos is a box in the bounds of the board*/
 		if(Chess.board.containsKey(newPos) == false) {
-			System.out.println("Illegal move, try again");
-			return;
+			//System.out.println("Illegal move, try again");
+			return false;
 		}
 		
 		if(piece_oldPos.charAt(0) == 'w') { //piece is white
 			if(newPosnum <= oldPosnum) {
-				System.out.println("Illegal move, try again"); //pawn cannot move backwards or stay at same place
-				return;
+				//System.out.println("Illegal move, try again"); //pawn cannot move backwards or stay at same place
+				return false;
 			}
 			
 			if(newPosalpha != oldPosalpha) { //not a straight move, has to be a diagonal kill
 				if((newPosnum-oldPosnum)!=1 || Math.abs((newPosalpha-oldPosalpha))!=1 || isBoxEmpty(newPosalpha, newPosnum)==true) { 
-					System.out.println("Illegal move, try again"); //pawn cannot move diagonal if not a kill
-					return;
+					//System.out.println("Illegal move, try again"); //pawn cannot move diagonal if not a kill
+					return false;
 				}
 				if(piece_oldPos.charAt(0) == piece_newPos.charAt(0)) {
-					System.out.println("Illegal move, try again");  //piece color is the same, cannot kill
-					return;
+					//System.out.println("Illegal move, try again");  //piece color is the same, cannot kill
+					return false;
 				}
 				
 				//move and kill
@@ -57,17 +57,18 @@ public class Pawn extends Piece {
 				if(newPosnum == 8) {
 					pawn_promotion(newPosalpha, newPosnum);
 				}
+				return true;
 				
 			}
 			
 			if(Math.abs(newPosnum - oldPosnum) == 2) { //two steps, has to be in first move
 				if(oldPosnum != 2) {
-					System.out.println("Illegal move, try again"); //pawn can only move two steps in first move
-					return;
+					//System.out.println("Illegal move, try again"); //pawn can only move two steps in first move
+					return false;
 				}
 				if(!(isPathEmpty(oldPos, newPos))) {
-					System.out.println("Illegal move, try again"); //pawn can only move two steps when path is clear
-					return;
+					//System.out.println("Illegal move, try again"); //pawn can only move two steps when path is clear
+					return false;
 				}
 				
 				//move ahead two steps
@@ -79,6 +80,7 @@ public class Pawn extends Piece {
 				else {
 					Chess.board.put(oldPos, "  ");
 				}
+				return true;
 			}
 			else if(Math.abs(newPosnum - oldPosnum) == 1) { //one step move straight
 				//move one step
@@ -94,25 +96,26 @@ public class Pawn extends Piece {
 				if(newPosnum == 8) {
 					pawn_promotion(newPosalpha, newPosnum);
 				}
+				return true;
 				
 			}
 			else {
-				System.out.println("Illegal move, try again"); //pawn cannot move more than two steps
-				return;
+				//System.out.println("Illegal move, try again"); //pawn cannot move more than two steps
+				return false;
 			}
 			
 		}
 		
 		else { //piece is black
 			if(newPosnum >= oldPosnum) {
-				System.out.println("Illegal move, try again"); //pawn cannot move backwards
-				return;
+				//System.out.println("Illegal move, try again"); //pawn cannot move backwards
+				return false;
 			}
 			
 			if(newPosalpha != oldPosalpha) { //not a straight move, has to be a diagonal kill
 				if((oldPosnum-newPosnum)!=1 || Math.abs((newPosalpha-oldPosalpha))!=1 || isBoxEmpty(newPosalpha, newPosnum)==true) { 
-					System.out.println("Illegal move, try again"); //pawn cannot move diagonal if not a kill
-					return;
+					//System.out.println("Illegal move, try again"); //pawn cannot move diagonal if not a kill
+					return false;
 				}
 				
 				//move and kill
@@ -128,17 +131,18 @@ public class Pawn extends Piece {
 				if(newPosnum == 1) {
 					pawn_promotion(newPosalpha, newPosnum);
 				}
+				return true;
 				
 			}
 			
 			if(Math.abs(newPosnum - oldPosnum) == 2) { //two steps, has to be in first move
 				if(oldPosnum != 7) {
-					System.out.println("Illegal move, try again"); //pawn can only move two steps in first move
-					return;
+					//System.out.println("Illegal move, try again"); //pawn can only move two steps in first move
+					return false;
 				}
 				if(!(isPathEmpty(oldPos, newPos))) {
-					System.out.println("Illegal move, try again"); //pawn can only move two steps when path is clear
-					return;
+					//System.out.println("Illegal move, try again"); //pawn can only move two steps when path is clear
+					return false;
 				}
 				
 				//move ahead two steps
@@ -150,6 +154,7 @@ public class Pawn extends Piece {
 				else {
 					Chess.board.put(oldPos, "  ");
 				}
+				return true;
 			}
 			else if(Math.abs(newPosnum - oldPosnum) == 1) { //one step move straight
 				//just move
@@ -165,11 +170,12 @@ public class Pawn extends Piece {
 				if(newPosnum == 1) {
 					pawn_promotion(newPosalpha, newPosnum);
 				}
+				return true;
 				
 			}
 			else {
-				System.out.println("Illegal move, try again"); //pawn cannot move more than two steps
-				return;
+				//System.out.println("Illegal move, try again"); //pawn cannot move more than two steps
+				return false;
 			}
 		}
 		

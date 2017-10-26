@@ -15,13 +15,14 @@ import java.util.List;
  */
 public class Bishop extends Piece{
 
-	public static void move(String oldPos, String newPos) {
+	public static boolean move(String oldPos, String newPos) {
 		String piece_oldPos=Chess.board.get(oldPos);
 		String piece_newPos=Chess.board.get(newPos);
 		
 		/*to check if newPos is a box in the bounds of the board*/
 		if(Chess.board.containsKey(newPos) == false) {
-			System.out.println("Illegal move, try again");
+			//System.out.println("Illegal move, try again");
+			return false;
 		}
 		
 		//to check if valid move for a bishop:
@@ -38,18 +39,21 @@ public class Bishop extends Piece{
 					else {
 						Chess.board.put(oldPos, "  ");
 					}
+					return true;
 				}
 				
 				else {
-					System.out.println("Illegal move, try again");
-					//need to prompt user to dry a different valid move. 
+					//System.out.println("Illegal move, try again");
+					//need to prompt user to dry a different valid move
+					return false;
 				}
 			}                               //closing of the if check for newPos being empty. 
 			
 			/*Color case when newPos is not empty*/
 			else {
 				if(piece_oldPos.charAt(0)==piece_newPos.charAt(0)) {
-					System.out.println("Illegal move, try again");  //piece color is the same	
+					//System.out.println("Illegal move, try again");  //piece color is the same	
+					return false;
 				}
 				
 				else {
@@ -62,13 +66,12 @@ public class Bishop extends Piece{
 						else {
 							Chess.board.put(oldPos, "  ");
 						}
-						
-						//kill process TODO; check the state of the board here. 	
+						return true; 	
 					}
 					else {
 						//path is not empty
-						System.out.println("Illegal move, try again");
-						
+						//System.out.println("Illegal move, try again");
+						return false;
 					}
 				}
 			}
@@ -77,7 +80,8 @@ public class Bishop extends Piece{
 		}
 		
 		else {   //illegal move for Bishop
-			System.out.println("Illegal move, try again");
+			//System.out.println("Illegal move, try again");
+			return false;
 		}	
 		
 	}

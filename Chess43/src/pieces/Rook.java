@@ -14,13 +14,14 @@ import chess.Chess;
 public class Rook extends Piece {
 
 	//@Override
-	public static void move(String oldPos, String newPos) {
+	public static boolean move(String oldPos, String newPos) {
 		String piece_oldPos = Chess.board.get(oldPos);
 		String piece_newPos = Chess.board.get(newPos);
 		
 		/*to check if newPos is a box in the bounds of the board*/
 		if(Chess.board.containsKey(newPos) == false) {
-			System.out.println("Illegal move, try again");
+			//System.out.println("Illegal move, try again");
+			return false;
 		}
 		
 		/*to check if valid move for a Rook*/
@@ -39,11 +40,13 @@ public class Rook extends Piece {
 					else {
 						Chess.board.put(oldPos, "  ");
 					}
+					return true;
 				}
 				else {
 					//path not empty, rook can't jump
-					System.out.println("Illegal move, try again");
-					//need to prompt user to try a different valid move. 
+					//System.out.println("Illegal move, try again");
+					//need to prompt user to try a different valid move
+					return false;
 				}
 			}
 			
@@ -51,7 +54,8 @@ public class Rook extends Piece {
 			else {
 				
 				if(piece_oldPos.charAt(0) == piece_newPos.charAt(0)) {
-					System.out.println("Illegal move, try again");  //piece color is the same	
+					//System.out.println("Illegal move, try again");  //piece color is the same	
+					return false;
 				}
 				else {
 					if(isPathEmpty(oldPos,newPos)) {     //there is a piece at the new position, we need to move there and kill that piece.
@@ -63,19 +67,20 @@ public class Rook extends Piece {
 						else {
 							Chess.board.put(oldPos, "  ");
 						}
-						
-						//kill process TODO; check the state of the board here. 	
+						return true;
 					}
 					else {
 						//path is not empty
-						System.out.println("Illegal move, try again");
+						//System.out.println("Illegal move, try again");
+						return false;
 					}
 				}
 				
 			}
 		}
 		else {   //illegal move for Rook
-			System.out.println("Illegal move, try again");
+			//System.out.println("Illegal move, try again");
+			return false;
 		}	
 		
 		

@@ -14,14 +14,15 @@ import java.util.*;
 public class Knight extends Piece {
 
 	//@Override
-	public static void move(String oldPos, String newPos) {
+	public static boolean move(String oldPos, String newPos) {
 		
 		String piece_oldPos = Chess.board.get(oldPos);
 		String piece_newPos = Chess.board.get(newPos);
 		
 		/*to check if newPos is a box in the bounds of the board*/
 		if(Chess.board.containsKey(newPos) == false) {
-			System.out.println("Illegal move, try again");
+			//System.out.println("Illegal move, try again");
+			return false;
 		}
 		
 		/*Given a knight at a position, valid moves contains fileranks for all possible moves for that knight*/
@@ -80,11 +81,13 @@ public class Knight extends Piece {
 				else {
 					Chess.board.put(oldPos, "  ");
 				}
+				return true;
 			}
 			else {
 				
 				if(piece_oldPos.charAt(0) == piece_newPos.charAt(0)) {
-					System.out.println("Illegal move, try again");  //piece color at both positions is the same	
+					//System.out.println("Illegal move, try again");  //piece color at both positions is the same	
+					return false;
 				}
 				else {
 					//there is a piece at the new position, we need to move there and kill that piece.
@@ -97,12 +100,14 @@ public class Knight extends Piece {
 					else {
 						Chess.board.put(oldPos, "  ");
 					}
+					return true;
 				}
 			}
 		}
 		else {
 			/*validmoves does not contain newPos, not a valid Knight move*/
-			System.out.println("Illegal move, try again");
+			//System.out.println("Illegal move, try again");
+			return false;
 		}
 		
 	}

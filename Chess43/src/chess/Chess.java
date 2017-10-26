@@ -108,14 +108,17 @@ public class Chess {
 		
 		initboard();
 		printboard();
-		String wholestr, oldPos, newPos, piece_oldPos; //piece_newPos;
+		String wholestr, oldPos, newPos, piece_oldPos;
 		char piece;
-		String[] inputstr_as_arr = new String[2];
-		System.out.println("test print");
+		String[] inputstr_as_arr = new String[3];
+		//System.out.println("test print");
 		
 		boolean is_white_move = true; //true when it's white's move; false when it's black's move
+		boolean is_move_valid = false; //return value from move method
 		
-		while(state_of_game() != -1) { //to check if game is still on
+		Scanner sc = new Scanner(System.in);
+		
+		while(state_of_game() == 0 || state_of_game() == 1) { //to check if game is still on
 			
 			if(is_white_move == true) {
 				System.out.print("White's move: ");
@@ -123,70 +126,92 @@ public class Chess {
 			else {
 				System.out.print("Black's move: ");
 			}
-			
-			System.out.println();
-			
-				
-			
-			Scanner sc = new Scanner(System.in);
 			wholestr = sc.nextLine(); 
 			
 			while(wholestr.length() != 5 || wholestr.charAt(2) != ' ') {
 				System.out.println("Invalid input; enter in form filerank filerank");
+				System.out.println();
+				if(is_white_move == true) {
+					System.out.print("White's move: ");
+				}
+				else {
+					System.out.print("Black's move: ");
+				}
 				wholestr = sc.nextLine();
 			}
+			
+			System.out.println();
 			
 			inputstr_as_arr = wholestr.split(" ");
 			oldPos = inputstr_as_arr[0];
 			newPos = inputstr_as_arr[1];
 			piece_oldPos = board.get(oldPos);
-			//piece_newPos = board.get(newPos);
 			
 			if((is_white_move == true && piece_oldPos.charAt(0) == 'w') || (is_white_move == false && piece_oldPos.charAt(0) == 'b')) {
 				piece = piece_oldPos.charAt(1);
 				
 				switch(piece) {
 					case 'p' : 
-						Pawn.move(oldPos, newPos);
+						is_move_valid = Pawn.move(oldPos, newPos);
 						break;
 					case 'R' :
-						Rook.move(oldPos, newPos);
+						is_move_valid = Rook.move(oldPos, newPos);
 						break;
 					case 'N' :
-						Knight.move(oldPos, newPos);
+						is_move_valid = Knight.move(oldPos, newPos);
 						break;
 					case 'B' :
-						Bishop.move(oldPos, newPos);
+						is_move_valid = Bishop.move(oldPos, newPos);
 						break;
 					case 'Q' :
-						Queen.move(oldPos, newPos);
+						is_move_valid = Queen.move(oldPos, newPos);
 						break;
 					case 'K' :
-						King.move(oldPos, newPos);
+						is_move_valid = King.move(oldPos, newPos);
 						break;
 				}
 				
 			}
 			else {
+				
 				System.out.println("Invalid input; move correct color piece");
-				wholestr = sc.nextLine(); 
+				System.out.println();
+				continue;
+				
+				/*wholestr = sc.nextLine(); 
 				
 				while(wholestr.length() != 5 || wholestr.charAt(2) != ' ') {
 					System.out.println("Invalid input; move correct color piece");
 					wholestr = sc.nextLine();
-				}
+				}*/
 			}
 			
-			sc.close();
-			
+			if(is_move_valid == true) {
+				printboard();
+				/*other person's turn, so switch*/
+				if(is_white_move == true) {
+					is_white_move = false; //now black's turn
+				}
+				else {
+					is_white_move = true; //now white's turn
+				}
+			}
+			else { //not a valid move, prompt to enter again
+				System.out.println("Illegal move, try again");
+				System.out.println();
+				continue;
+			}
+						
 		}
+		
+		sc.close();
 
 	}
 	
 	/*function to check state of the game after every legal move
 	 * returns 0 if game is still on
 	 * returns 1 if check
-	 * returns -1 if checkmate/draw, game over
+	 * returns -1 if checkmate/draw/resign, game over
 	 * */
 	public static int state_of_game() {
 		return 0;
