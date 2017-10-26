@@ -13,10 +13,10 @@ import chess.Chess;
  * @author Chinmoyi Bhushan
  *
  */
-public class Queen implements Piece {
+public class Queen extends Piece {
 
-	@Override
-	public void move(String oldPos, String newPos) {
+	//@Override
+	public static void move(String oldPos, String newPos) {
 		String piece_oldPos = Chess.board.get(oldPos);
 		String piece_newPos = Chess.board.get(newPos);
 		
@@ -87,8 +87,8 @@ public class Queen implements Piece {
 					
 	}
 
-	@Override
-	public boolean isPathEmpty(String oldPos, String newPos) {
+	//@Override
+	public static boolean isPathEmpty(String oldPos, String newPos) {
 		
 		if ((Math.abs((int)oldPos.charAt(0) - (int)newPos.charAt(0)) == Math.abs (oldPos.charAt(1)-'0' - newPos.charAt(1)-'0'))) { //it is a diagonal move:
 			return isBishopPathEmpty(oldPos, newPos);
@@ -102,7 +102,7 @@ public class Queen implements Piece {
 		return false;
 	}
 	
-	public boolean isBishopPathEmpty(String oldPos, String newPos) {
+	public static boolean isBishopPathEmpty(String oldPos, String newPos) {
 		List<String> boxes=getBoxesInBetween(oldPos, newPos);
 		
 		for (String index:boxes) {
@@ -113,7 +113,7 @@ public class Queen implements Piece {
 		return true;
 	}
 	
-	public List<String> getBoxesInBetween(String oldPos, String newPos) {
+	public static List<String> getBoxesInBetween(String oldPos, String newPos) {
 		//@requires oldPos and newPos to form a diagonal path.
 		//e.g. (A1, C3) is valid. (E4, C6) is valid. (G6, D3) is valid.
 		
@@ -135,7 +135,7 @@ public class Queen implements Piece {
 		return indicesList;
 	}
 	
-	public boolean isRookPathEmpty(String oldPos, String newPos) {
+	public static boolean isRookPathEmpty(String oldPos, String newPos) {
 		if (oldPos.charAt(0) == newPos.charAt(0)) {
 			int i;
 			int numoldPos = oldPos.charAt(1) - '0';
@@ -180,7 +180,7 @@ public class Queen implements Piece {
 		return true;
 	}
 	
-	private boolean isBoxEmpty(char alpha, int num) {
+	private static boolean isBoxEmpty(char alpha, int num) {
 		String filerank = alpha + "" + num;
 		
 		if(Chess.board.get(filerank).equals("##") || Chess.board.get(filerank).equals("  ")) { //box is empty

@@ -13,10 +13,9 @@ import java.util.List;
  * @author Chinmoyi Bhushan
  *
  */
-public class Bishop implements Piece{
+public class Bishop extends Piece{
 
-	@Override
-	public void move(String oldPos, String newPos) {
+	public static void move(String oldPos, String newPos) {
 		String piece_oldPos=Chess.board.get(oldPos);
 		String piece_newPos=Chess.board.get(newPos);
 		
@@ -83,8 +82,8 @@ public class Bishop implements Piece{
 		
 	}
 
-	@Override
-	public boolean isPathEmpty(String oldPos, String newPos) {
+	
+	public static boolean isPathEmpty(String oldPos, String newPos) {
 		List<String> boxes=getIndicesInBetween(oldPos, newPos);
 		
 		for (String index:boxes) {
@@ -96,7 +95,7 @@ public class Bishop implements Piece{
 	}
 	
 	
-	public List<String> getIndicesInBetween(String oldPos, String newPos) {
+	public static List<String> getIndicesInBetween(String oldPos, String newPos) {
 		//@requires oldPos and newPos to form a diagonal path.
 		//e.g. (A1, C3) is valid. (E4, C6) is valid. (G6, D3) is valid.
 		

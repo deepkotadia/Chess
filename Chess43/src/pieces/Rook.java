@@ -11,10 +11,10 @@ package pieces;
 
 import chess.Chess;
 
-public class Rook implements Piece {
+public class Rook extends Piece {
 
-	@Override
-	public void move(String oldPos, String newPos) {
+	//@Override
+	public static void move(String oldPos, String newPos) {
 		String piece_oldPos = Chess.board.get(oldPos);
 		String piece_newPos = Chess.board.get(newPos);
 		
@@ -82,8 +82,8 @@ public class Rook implements Piece {
 	}
 	
 
-	@Override
-	public boolean isPathEmpty(String oldPos, String newPos) {
+	//@Override
+	public static boolean isPathEmpty(String oldPos, String newPos) {
 		if (oldPos.charAt(0) == newPos.charAt(0)) {
 			int i;
 			int numoldPos = oldPos.charAt(1) - '0';
@@ -128,7 +128,7 @@ public class Rook implements Piece {
 		return true;
 	}
 	
-	private boolean isBoxEmpty(char alpha, int num) {
+	private static boolean isBoxEmpty(char alpha, int num) {
 		String filerank = alpha + "" + num;
 		
 		if(Chess.board.get(filerank).equals("##") || Chess.board.get(filerank).equals("  ")) { //box is empty

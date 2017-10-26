@@ -8,9 +8,14 @@ package pieces;
  * @author Chinmoyi Bhushan
  *
  */
-public interface Piece {
+public abstract class Piece {
 	
-	public abstract void move(String oldPos, String newPos);
-	public abstract boolean isPathEmpty(String oldPos, String newPos);
+	public static void move(String oldPos, String newPos) {
+		
+	}
+	
+	public static boolean isPathEmpty(String oldPos, String newPos) {
+		return true;
+	}
 
 }

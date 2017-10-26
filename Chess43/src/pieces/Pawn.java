@@ -10,10 +10,10 @@ import chess.Chess;
  * @author Chinmoyi Bhushan
  *
  */
-public class Pawn implements Piece {
+public class Pawn extends Piece {
 
-	@Override
-	public void move(String oldPos, String newPos) {
+	//@Override
+	public static void move(String oldPos, String newPos) {
 		
 		String piece_oldPos = Chess.board.get(oldPos);
 		String piece_newPos = Chess.board.get(newPos);
@@ -175,8 +175,8 @@ public class Pawn implements Piece {
 		
 	}
 
-	@Override
-	public boolean isPathEmpty(String oldPos, String newPos) {
+	//@Override
+	public static boolean isPathEmpty(String oldPos, String newPos) {
 		int i;
 		int numoldPos = oldPos.charAt(1) - '0';
 		int numnewPos = newPos.charAt(1) - '0';
@@ -199,7 +199,7 @@ public class Pawn implements Piece {
 		return true;
 	}
 	
-	private boolean isBoxEmpty(char alpha, int num) {
+	private static boolean isBoxEmpty(char alpha, int num) {
 		String filerank = alpha + "" + num;
 		
 		if(Chess.board.get(filerank).equals("##") || Chess.board.get(filerank).equals("  ")) { //box is empty
@@ -210,7 +210,7 @@ public class Pawn implements Piece {
 	}
 	
 	
-	private void pawn_promotion(char newPosalpha, int newPosnum) {
+	private static void pawn_promotion(char newPosalpha, int newPosnum) {
 		//TODO
 	}
 	

@@ -10,10 +10,9 @@ import chess.Chess;
  * @author Chinmoyi Bhushan
  *
  */
-public class King implements Piece{
+public class King extends Piece{
 
-	@Override
-	public void move(String oldPos, String newPos) {
+	public static void move(String oldPos, String newPos) {
 		// TODO
 		String piece_oldPos = Chess.board.get(oldPos);
 		String piece_newPos = Chess.board.get(newPos);
@@ -93,15 +92,15 @@ public class King implements Piece{
 
 	
 	
-	public boolean isCheck(String oldPos, String newPos) {
+	public static boolean isCheck(String oldPos, String newPos) {
 		//TODO
 		
 		return false;
 	}
 	
 	
-	@Override
-	public boolean isPathEmpty(String oldPos, String newPos) {
+	
+	public static boolean isPathEmpty(String oldPos, String newPos) {
 		// TODO Auto-generated method stub
 		return false;
 	}
