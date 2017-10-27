@@ -29,8 +29,7 @@ public class Queen extends Piece {
 		/*to check if valid move for Queen (combination of rook and bishop */
 		
 		if(  (oldPos.charAt(0)==newPos.charAt(0) || oldPos.charAt(1) == newPos.charAt(1)) ||       
-				(Math.abs( (int) oldPos.charAt(0) - (int)newPos.charAt(0) ) == Math.abs((oldPos.charAt(1)-'0') - 
-						(newPos.charAt(1)-'0')) ) && !(oldPos.equals(newPos))){
+				( Math.abs( oldPos.charAt(0) - newPos.charAt(0) ) == Math.abs((oldPos.charAt(1)) - (newPos.charAt(1))) ) && !(oldPos.equals(newPos))){
 			
 			//to check if the new position is empty:
 			if(Chess.board.get(newPos).equals("  ") || Chess.board.get(newPos).equals("##")) {
@@ -94,7 +93,7 @@ public class Queen extends Piece {
 	//@Override
 	public static boolean isPathEmpty(String oldPos, String newPos) {
 		
-		if ((Math.abs((int)oldPos.charAt(0) - (int)newPos.charAt(0)) == Math.abs (oldPos.charAt(1)-'0' - newPos.charAt(1)-'0'))) { //it is a diagonal move:
+		if ((Math.abs(oldPos.charAt(0) - newPos.charAt(0)) == Math.abs (oldPos.charAt(1) - newPos.charAt(1)))) { //it is a diagonal move:
 			return isBishopPathEmpty(oldPos, newPos);
 			
 		}

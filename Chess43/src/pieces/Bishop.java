@@ -26,7 +26,7 @@ public class Bishop extends Piece{
 		}
 		
 		//to check if valid move for a bishop:
-		if((Math.abs((int)oldPos.charAt(0) - (int)newPos.charAt(0)) == Math.abs (oldPos.charAt(1)-'0' - newPos.charAt(1)-'0')) && !(oldPos.equals(newPos))) {
+		if((Math.abs(oldPos.charAt(0) - newPos.charAt(0)) == Math.abs (oldPos.charAt(1) - newPos.charAt(1))) && !(oldPos.equals(newPos))) {
 			
 			//to check if the newPos is empty:
 			if(Chess.board.get(newPos).equals("  ") || Chess.board.get(newPos).equals("##")) {
