@@ -111,9 +111,8 @@ public class Chess {
 		String wholestr, oldPos, newPos, piece_oldPos;
 		char piece;
 		String[] inputstr_as_arr = new String[3];
-		//System.out.println("test print");
 		
-		boolean is_white_move = true; //true when it's white's move; false when it's black's move
+		boolean is_white_move = true; //true when it's white's move, false when it's black's move
 		boolean is_move_valid = false; //return value from move method
 		
 		Scanner sc = new Scanner(System.in);
@@ -152,22 +151,46 @@ public class Chess {
 				
 				switch(piece) {
 					case 'p' : 
-						is_move_valid = Pawn.move(oldPos, newPos);
+						is_move_valid = Pawn.isMoveValid(oldPos, newPos);
+						if(is_move_valid) {
+							Pawn.move(oldPos, newPos);
+							
+						}
 						break;
 					case 'R' :
-						is_move_valid = Rook.move(oldPos, newPos);
+						is_move_valid = Rook.isMoveValid(oldPos, newPos);
+						if(is_move_valid) {
+							Rook.move(oldPos, newPos);
+							
+						}
 						break;
 					case 'N' :
-						is_move_valid = Knight.move(oldPos, newPos);
+						is_move_valid = Knight.isMoveValid(oldPos, newPos);
+						if(is_move_valid) {
+							Knight.move(oldPos, newPos);
+							
+						}
 						break;
 					case 'B' :
-						is_move_valid = Bishop.move(oldPos, newPos);
+						is_move_valid = Bishop.isMoveValid(oldPos, newPos);
+						if(is_move_valid) {
+							Bishop.move(oldPos, newPos);
+							
+						}
 						break;
 					case 'Q' :
-						is_move_valid = Queen.move(oldPos, newPos);
+						is_move_valid = Queen.isMoveValid(oldPos, newPos);
+						if(is_move_valid) {
+							Queen.move(oldPos, newPos);
+							
+						}
 						break;
 					case 'K' :
-						is_move_valid = King.move(oldPos, newPos);
+						is_move_valid = King.isMoveValid(oldPos, newPos);
+						if(is_move_valid) {
+							King.move(oldPos, newPos);
+							
+						}
 						break;
 				}
 				
@@ -178,12 +201,6 @@ public class Chess {
 				System.out.println();
 				continue;
 				
-				/*wholestr = sc.nextLine(); 
-				
-				while(wholestr.length() != 5 || wholestr.charAt(2) != ' ') {
-					System.out.println("Invalid input; move correct color piece");
-					wholestr = sc.nextLine();
-				}*/
 			}
 			
 			if(is_move_valid == true) {

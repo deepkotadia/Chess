@@ -12,8 +12,7 @@ import chess.Chess;
  */
 public class King extends Piece{
 
-	public static boolean move(String oldPos, String newPos) {
-		// TODO
+	public static boolean isMoveValid(String oldPos, String newPos) {
 		String piece_oldPos = Chess.board.get(oldPos);
 		String piece_newPos = Chess.board.get(newPos);
 		
@@ -24,28 +23,20 @@ public class King extends Piece{
 		
 		/*to check if Valid move for king*/
 		
-		int x= Math.abs((int)(oldPos.charAt(0))- (int)(newPos.charAt(0)));
-		int y= Math.abs( (oldPos.charAt(1) - '0') - (newPos.charAt(1)-'0') );
+		int x= Math.abs((oldPos.charAt(0))- (newPos.charAt(0)));
+		int y= Math.abs( (oldPos.charAt(1)) - (newPos.charAt(1)) );
 		
 		if( (x==0 && y==1) || (x==1 && y==0) || (x==y && x==1 && y==1)) {
 			
 			//to check if the newpos is empty
 			if(Chess.board.get(newPos).equals("  ") || Chess.board.get(newPos).equals("##")) {
-				if(!(isCheck(oldPos, newPos))) { //TODO 
-					Chess.board.put(newPos, piece_oldPos);
-					
-					if(Chess.isBlackBox(oldPos.charAt(0), oldPos.charAt(1))) {
-						Chess.board.put(oldPos, "##");
-					}
-					else {
-						Chess.board.put(oldPos, "  ");
-					}
+				if(!(isCheck(oldPos, newPos))) {
 					return true;
 					
 				}
 				
 				else {
-					//need to prompt user to dry a different valid move. 
+					//need to prompt user to try a different valid move. 
 					return false;
 				}
 				
@@ -59,39 +50,39 @@ public class King extends Piece{
 				}
 				
 				else {
-					if(!isCheck(oldPos,newPos)) {     //there is a piece at the new position, we need to move there and kill that piece.
-						Chess.board.put(newPos, piece_oldPos);
-						
-						if(Chess.isBlackBox(oldPos.charAt(0), oldPos.charAt(1))) {
-							Chess.board.put(oldPos, "##");
-						}
-						else {
-							Chess.board.put(oldPos, "  ");
-						}
-						
+					if(!isCheck(oldPos,newPos)) {     //there is a piece at the new position, we need to move there and kill that piece
 						return true;
-						//kill process TODO; check the state of the board here. 	
 					}
 					else {
 						//path is not empty
 						return false;
-						
 					}
-				}
-					
-				
+				}	
 			}
-		
 			
 		}
 		
-		else {   //illegal move for Bishop
+		else {   //illegal move for King
 			return false;
-		}	
-		
-		
+		}
+			
 	}
-
+	
+	
+	public static void move(String oldPos, String newPos) {
+		String piece_oldPos = Chess.board.get(oldPos);
+		
+		//move piece to newPos
+		Chess.board.put(newPos, piece_oldPos);
+		
+		//make oldPos an empty box
+		if(Chess.isBlackBox(oldPos.charAt(0), oldPos.charAt(1)-'0')) {
+			Chess.board.put(oldPos, "##");
+		}
+		else {
+			Chess.board.put(oldPos, "  ");
+		}
+	}
 	
 	
 	public static boolean isCheck(String oldPos, String newPos) {
@@ -103,7 +94,6 @@ public class King extends Piece{
 	
 	
 	public static boolean isPathEmpty(String oldPos, String newPos) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

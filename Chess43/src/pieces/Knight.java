@@ -14,14 +14,13 @@ import java.util.*;
 public class Knight extends Piece {
 
 	//@Override
-	public static boolean move(String oldPos, String newPos) {
+	public static boolean isMoveValid(String oldPos, String newPos) {
 		
 		String piece_oldPos = Chess.board.get(oldPos);
 		String piece_newPos = Chess.board.get(newPos);
 		
 		/*to check if newPos is a box in the bounds of the board*/
 		if(Chess.board.containsKey(newPos) == false) {
-			//System.out.println("Illegal move, try again");
 			return false;
 		}
 		
@@ -70,47 +69,43 @@ public class Knight extends Piece {
 			
 			/*to check if newPos is empty*/
 			if(Chess.board.get(newPos).equals("  ") || Chess.board.get(newPos).equals("##")) {
-				
-				//move piece to newPos
-				Chess.board.put(newPos, piece_oldPos);
-					
-				//make oldPos an empty box
-				if(Chess.isBlackBox(oldPos.charAt(0), oldPos.charAt(1))) {
-					Chess.board.put(oldPos, "##");
-				}
-				else {
-					Chess.board.put(oldPos, "  ");
-				}
 				return true;
 			}
 			else {
 				
 				if(piece_oldPos.charAt(0) == piece_newPos.charAt(0)) {
-					//System.out.println("Illegal move, try again");  //piece color at both positions is the same	
+					//piece color at both positions is the same	
 					return false;
 				}
 				else {
 					//there is a piece at the new position, we need to move there and kill that piece.
-
-					Chess.board.put(newPos, piece_oldPos);
-						
-					if(Chess.isBlackBox(oldPos.charAt(0), oldPos.charAt(1))) {
-						Chess.board.put(oldPos, "##");
-					}
-					else {
-						Chess.board.put(oldPos, "  ");
-					}
 					return true;
 				}
 			}
 		}
 		else {
 			/*validmoves does not contain newPos, not a valid Knight move*/
-			//System.out.println("Illegal move, try again");
 			return false;
 		}
 		
 	}
+	
+	
+	public static void move(String oldPos, String newPos) {
+		String piece_oldPos = Chess.board.get(oldPos);
+		
+		//move piece to newPos
+		Chess.board.put(newPos, piece_oldPos);
+		
+		//make oldPos an empty box
+		if(Chess.isBlackBox(oldPos.charAt(0), oldPos.charAt(1)-'0')) {
+			Chess.board.put(oldPos, "##");
+		}
+		else {
+			Chess.board.put(oldPos, "  ");
+		}
+	}
+	
 
 	//@Override
 	public static boolean isPathEmpty(String oldPos, String newPos) {

@@ -15,13 +15,12 @@ import java.util.List;
  */
 public class Bishop extends Piece{
 
-	public static boolean move(String oldPos, String newPos) {
+	public static boolean isMoveValid(String oldPos, String newPos) {
 		String piece_oldPos=Chess.board.get(oldPos);
 		String piece_newPos=Chess.board.get(newPos);
 		
 		/*to check if newPos is a box in the bounds of the board*/
 		if(Chess.board.containsKey(newPos) == false) {
-			//System.out.println("Illegal move, try again");
 			return false;
 		}
 		
@@ -31,19 +30,10 @@ public class Bishop extends Piece{
 			//to check if the newPos is empty:
 			if(Chess.board.get(newPos).equals("  ") || Chess.board.get(newPos).equals("##")) {
 				if(isPathEmpty(oldPos, newPos)) {                
-					Chess.board.put(newPos, piece_oldPos);
-					
-					if(Chess.isBlackBox(oldPos.charAt(0), oldPos.charAt(1))) {
-						Chess.board.put(oldPos, "##");
-					}
-					else {
-						Chess.board.put(oldPos, "  ");
-					}
 					return true;
 				}
 				
 				else {
-					//System.out.println("Illegal move, try again");
 					//need to prompt user to dry a different valid move
 					return false;
 				}
@@ -58,32 +48,37 @@ public class Bishop extends Piece{
 				
 				else {
 					if(isPathEmpty(oldPos,newPos)) {     //there is a piece at the new position, we need to move there and kill that piece.
-						Chess.board.put(newPos, piece_oldPos);
-						
-						if(Chess.isBlackBox(oldPos.charAt(0), oldPos.charAt(1))) {
-							Chess.board.put(oldPos, "##");
-						}
-						else {
-							Chess.board.put(oldPos, "  ");
-						}
 						return true; 	
 					}
 					else {
 						//path is not empty
-						//System.out.println("Illegal move, try again");
 						return false;
 					}
 				}
 			}
 			
-			
 		}
 		
 		else {   //illegal move for Bishop
-			//System.out.println("Illegal move, try again");
 			return false;
 		}	
 		
+	}
+	
+	
+	public static void move(String oldPos, String newPos) {
+		String piece_oldPos = Chess.board.get(oldPos);
+		
+		//move piece to newPos
+		Chess.board.put(newPos, piece_oldPos);
+		
+		//make oldPos an empty box
+		if(Chess.isBlackBox(oldPos.charAt(0), oldPos.charAt(1)-'0')) {
+			Chess.board.put(oldPos, "##");
+		}
+		else {
+			Chess.board.put(oldPos, "  ");
+		}
 	}
 
 	

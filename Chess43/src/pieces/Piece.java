@@ -10,7 +10,11 @@ package pieces;
  */
 public abstract class Piece {
 	
-	public static boolean move(String oldPos, String newPos) {
+	public static void move(String oldPos, String newPos) {
+		return;
+	}
+	
+	public static boolean isMoveValid(String oldPos, String newPos) {
 		return true;
 	}
 	

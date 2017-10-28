@@ -16,7 +16,7 @@ import chess.Chess;
 public class Queen extends Piece {
 
 	//@Override
-	public static boolean move(String oldPos, String newPos) {
+	public static boolean isMoveValid(String oldPos, String newPos) {
 		String piece_oldPos = Chess.board.get(oldPos);
 		String piece_newPos = Chess.board.get(newPos);
 		
@@ -33,20 +33,11 @@ public class Queen extends Piece {
 			
 			//to check if the new position is empty:
 			if(Chess.board.get(newPos).equals("  ") || Chess.board.get(newPos).equals("##")) {
-				if(isPathEmpty(oldPos, newPos)) {                //TODO isPathEmpty for Queen
-					Chess.board.put(newPos, piece_oldPos);
-					
-					if(Chess.isBlackBox(oldPos.charAt(0), oldPos.charAt(1))) {
-						Chess.board.put(oldPos, "##");
-					}
-					else {
-						Chess.board.put(oldPos, "  ");
-					}
+				if(isPathEmpty(oldPos, newPos)) {
 					return true;
 				}
 				
 				else {
-					//System.out.println("Illegal move, try again");
 					//need to prompt user to dry a different valid move. 
 					return false;
 				}
@@ -56,25 +47,17 @@ public class Queen extends Piece {
 			/*when new pos is not empty: */
 			else {
 				if(piece_oldPos.charAt(0)==piece_newPos.charAt(0)) {
-					//System.out.println("Illegal move, try again");          //piece color is the same	
+					//piece color is the same	
 					return false;
 				}
 				
 				else {
-					if(isPathEmpty(oldPos,newPos)) {                       //there is a piece at the new position, we need to move there and kill that piece.
-						Chess.board.put(newPos, piece_oldPos);
-						
-						if(Chess.isBlackBox(oldPos.charAt(0), oldPos.charAt(1))) {
-							Chess.board.put(oldPos, "##");
-						}
-						else {
-							Chess.board.put(oldPos, "  ");
-						}
+					if(isPathEmpty(oldPos,newPos)) {                       
+						//there is a piece at the new position, we need to move there and kill that piece.
 						return true;
 					}
 					else {
 						//path is not empty
-						//System.out.println("Illegal move, try again");
 						return false;
 					}
 				}
@@ -83,12 +66,29 @@ public class Queen extends Piece {
 		   }
 		
 		
-		else {                                                //not a valid move for Queen
-			//System.out.println("Illegal move, try again");
+		else { 
+			//not a valid move for Queen
 			return false;
 		}	
 					
 	}
+	
+	
+	public static void move(String oldPos, String newPos) {
+		String piece_oldPos = Chess.board.get(oldPos);
+		
+		//move piece to newPos
+		Chess.board.put(newPos, piece_oldPos);
+		
+		//make oldPos an empty box
+		if(Chess.isBlackBox(oldPos.charAt(0), oldPos.charAt(1)-'0')) {
+			Chess.board.put(oldPos, "##");
+		}
+		else {
+			Chess.board.put(oldPos, "  ");
+		}
+	}
+	
 
 	//@Override
 	public static boolean isPathEmpty(String oldPos, String newPos) {

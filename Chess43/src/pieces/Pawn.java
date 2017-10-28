@@ -13,7 +13,7 @@ import chess.Chess;
 public class Pawn extends Piece {
 
 	//@Override
-	public static boolean move(String oldPos, String newPos) {
+	public static boolean isMoveValid(String oldPos, String newPos) {
 		
 		String piece_oldPos = Chess.board.get(oldPos);
 		String piece_newPos = Chess.board.get(newPos);
@@ -24,83 +24,49 @@ public class Pawn extends Piece {
 		
 		/*to check if newPos is a box in the bounds of the board*/
 		if(Chess.board.containsKey(newPos) == false) {
-			//System.out.println("Illegal move, try again");
 			return false;
 		}
 		
 		if(piece_oldPos.charAt(0) == 'w') { //piece is white
 			if(newPosnum <= oldPosnum) {
-				//System.out.println("Illegal move, try again"); //pawn cannot move backwards or stay at same place
+				//pawn cannot move backwards or stay at same place
 				return false;
 			}
 			
 			if(newPosalpha != oldPosalpha) { //not a straight move, has to be a diagonal kill
 				if((newPosnum-oldPosnum)!=1 || Math.abs((newPosalpha-oldPosalpha))!=1 || isBoxEmpty(newPosalpha, newPosnum)==true) { 
-					//System.out.println("Illegal move, try again"); //pawn cannot move diagonal if not a kill
+					//pawn cannot move diagonal if not a kill
 					return false;
 				}
 				if(piece_oldPos.charAt(0) == piece_newPos.charAt(0)) {
-					//System.out.println("Illegal move, try again");  //piece color is the same, cannot kill
+					//piece color is the same, cannot kill
 					return false;
 				}
 				
 				//move and kill
-				Chess.board.put(newPos, piece_oldPos);
-				
-				if(Chess.isBlackBox(oldPosalpha, oldPosnum)) {
-					Chess.board.put(oldPos, "##");
-				}
-				else {
-					Chess.board.put(oldPos, "  ");
-				}
-				
-				if(newPosnum == 8) {
-					pawn_promotion(newPosalpha, newPosnum);
-				}
 				return true;
 				
 			}
 			
 			if(Math.abs(newPosnum - oldPosnum) == 2) { //two steps, has to be in first move
 				if(oldPosnum != 2) {
-					//System.out.println("Illegal move, try again"); //pawn can only move two steps in first move
+					//pawn can only move two steps in first move
 					return false;
 				}
 				if(!(isPathEmpty(oldPos, newPos))) {
-					//System.out.println("Illegal move, try again"); //pawn can only move two steps when path is clear
+					//pawn can only move two steps when path is clear
 					return false;
 				}
 				
-				//move ahead two steps
-				Chess.board.put(newPos, piece_oldPos);
-				
-				if(Chess.isBlackBox(oldPosalpha, oldPosnum)) {
-					Chess.board.put(oldPos, "##");
-				}
-				else {
-					Chess.board.put(oldPos, "  ");
-				}
 				return true;
 			}
 			else if(Math.abs(newPosnum - oldPosnum) == 1) { //one step move straight
 				//move one step
-				Chess.board.put(newPos, piece_oldPos);
-				
-				if(Chess.isBlackBox(oldPosalpha, oldPosnum)) {
-					Chess.board.put(oldPos, "##");
-				}
-				else {
-					Chess.board.put(oldPos, "  ");
-				}
-				
-				if(newPosnum == 8) {
-					pawn_promotion(newPosalpha, newPosnum);
-				}
 				return true;
 				
 			}
 			else {
-				//System.out.println("Illegal move, try again"); //pawn cannot move more than two steps
+				//pawn cannot move more than two steps
 				return false;
 			}
 			
@@ -108,78 +74,68 @@ public class Pawn extends Piece {
 		
 		else { //piece is black
 			if(newPosnum >= oldPosnum) {
-				//System.out.println("Illegal move, try again"); //pawn cannot move backwards
+				//pawn cannot move backwards
 				return false;
 			}
 			
 			if(newPosalpha != oldPosalpha) { //not a straight move, has to be a diagonal kill
 				if((oldPosnum-newPosnum)!=1 || Math.abs((newPosalpha-oldPosalpha))!=1 || isBoxEmpty(newPosalpha, newPosnum)==true) { 
-					//System.out.println("Illegal move, try again"); //pawn cannot move diagonal if not a kill
+					//pawn cannot move diagonal if not a kill
 					return false;
 				}
 				
-				//move and kill
-				Chess.board.put(newPos, piece_oldPos);
-				
-				if(Chess.isBlackBox(oldPosalpha, oldPosnum)) {
-					Chess.board.put(oldPos, "##");
-				}
-				else {
-					Chess.board.put(oldPos, "  ");
-				}
-				
-				if(newPosnum == 1) {
-					pawn_promotion(newPosalpha, newPosnum);
-				}
 				return true;
 				
 			}
 			
 			if(Math.abs(newPosnum - oldPosnum) == 2) { //two steps, has to be in first move
 				if(oldPosnum != 7) {
-					//System.out.println("Illegal move, try again"); //pawn can only move two steps in first move
+					//pawn can only move two steps in first move
 					return false;
 				}
 				if(!(isPathEmpty(oldPos, newPos))) {
-					//System.out.println("Illegal move, try again"); //pawn can only move two steps when path is clear
+					//pawn can only move two steps when path is clear
 					return false;
 				}
 				
 				//move ahead two steps
-				Chess.board.put(newPos, piece_oldPos);
-				
-				if(Chess.isBlackBox(oldPosalpha, oldPosnum)) {
-					Chess.board.put(oldPos, "##");
-				}
-				else {
-					Chess.board.put(oldPos, "  ");
-				}
 				return true;
 			}
 			else if(Math.abs(newPosnum - oldPosnum) == 1) { //one step move straight
 				//just move
-				Chess.board.put(newPos, piece_oldPos);
-				
-				if(Chess.isBlackBox(oldPosalpha, oldPosnum)) {
-					Chess.board.put(oldPos, "##");
-				}
-				else {
-					Chess.board.put(oldPos, "  ");
-				}
-				
-				if(newPosnum == 1) {
-					pawn_promotion(newPosalpha, newPosnum);
-				}
 				return true;
 				
 			}
 			else {
-				//System.out.println("Illegal move, try again"); //pawn cannot move more than two steps
+				//pawn cannot move more than two steps
 				return false;
 			}
 		}
 		
 	}
+	
+	
+	public static void move(String oldPos, String newPos) {
+		String piece_oldPos = Chess.board.get(oldPos);
+		char newPosalpha = newPos.charAt(0);
+		int newPosnum = newPos.charAt(1) - '0';
+		
+		//move piece to newPos
+		Chess.board.put(newPos, piece_oldPos);
+		
+		//make oldPos an empty box
+		if(Chess.isBlackBox(oldPos.charAt(0), oldPos.charAt(1)-'0')) {
+			Chess.board.put(oldPos, "##");
+		}
+		else {
+			Chess.board.put(oldPos, "  ");
+		}
+
+		if(newPosnum == 1 || newPosnum == 8) {
+			pawn_promotion(newPosalpha, newPosnum);
+		}
+	}
+	
 
 	//@Override
 	public static boolean isPathEmpty(String oldPos, String newPos) {
