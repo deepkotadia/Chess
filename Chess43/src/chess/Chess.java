@@ -115,6 +115,7 @@ public class Chess {
 		
 		boolean is_white_move = true; //true when it's white's move, false when it's black's move
 		boolean is_move_valid = false; //return value from move method
+		boolean castle_success = false; //true if castling was successful, false otherwise
 		
 		Scanner sc = new Scanner(System.in);
 		
@@ -130,7 +131,7 @@ public class Chess {
 			wholestr = sc.nextLine(); 
 			
 			while(wholestr.length() > 7 || wholestr.charAt(2) != ' ' || (wholestr.length() == 7 && wholestr.charAt(5) != ' ')) {
-				System.out.println("Invalid input; enter in form filerank filerank");
+				System.out.println("Illegal move, try again");
 				System.out.println();
 				if(is_white_move == true) {
 					System.out.print("White's move: ");
@@ -154,6 +155,7 @@ public class Chess {
 				promopiece = '0'; //set promotion string to 0 (no promotion)
 			}
 			
+			castle_success = false;
 			oldPos = inputstr_as_arr[0];
 			newPos = inputstr_as_arr[1];
 			piece_oldPos = board.get(oldPos);
@@ -162,10 +164,14 @@ public class Chess {
 				
 				/*Test if requested move is valid for the corresponding piece (polymorphism used here)*/
 				is_move_valid = piece_oldPos.isMoveValid(oldPos, newPos);
+				
+				/*Check and act if this is a castling move*/
+				castle_success = castling(oldPos, newPos);
+				
 			}
 			else {
 				
-				System.out.println("Invalid input; move correct color piece");
+				System.out.println("Illegal move, try again");
 				System.out.println();
 				continue;
 				
@@ -175,23 +181,35 @@ public class Chess {
 				
 				/*move is valid, so now move the piece (update hashmap)*/
 				piece_oldPos.move(oldPos, newPos, promopiece);
+				piece_oldPos.sethasMoved(true);
+				
 				printboard();
 				
-				/*other person's turn, so switch*/
-				if(is_white_move == true) {
-					is_white_move = false; //now black's turn
-				}
-				else {
-					is_white_move = true; //now white's turn
-				}
 			}
-			else { //not a valid move, prompt to enter again
+			else if(castle_success == false) { //not a valid move, prompt to enter again
 				System.out.println("Illegal move, try again");
 				System.out.println();
 				continue;
 			}
+			
+			/*other person's turn, so switch*/
+			if(is_white_move == true) {
+				is_white_move = false; //now black's turn
+			}
+			else {
+				is_white_move = true; //now white's turn
+			}
 						
 		}
+		
+		System.out.println("Checkmate");
+		System.out.println();
+		
+		//need to check and print if white or black won, or draw
+		
+		/*for(String currentpiece : board.keySet()) {
+			
+		}*/
 		
 		sc.close();
 
@@ -205,5 +223,69 @@ public class Chess {
 	public static int state_of_game() {
 		return 0;
 	}
+	
+	
+	private static boolean castling(String oldPos, String newPos) {
+		
+		Piece KingPiece, RookPiece;
+		String oldRookpos, newRookpos;
+		
+		KingPiece = board.get(oldPos);
+		
+		if((((oldPos.equals("e1")) && (newPos.equals("c1") || newPos.equals("g1"))) || ((oldPos.equals("e8")) && (newPos.equals("c8") || newPos.equals("g8")))) && KingPiece instanceof King) {
+						
+			if(newPos.equals("c1")) {
+				oldRookpos = "a1";
+				RookPiece = board.get(oldRookpos);
+				newRookpos = "d1";
+				if(KingPiece.isCheck("e1") || KingPiece.isCheck("d1") || KingPiece.isCheck("c1")) { return false; }
+			}
+			else if(newPos.equals("g1")) {
+				oldRookpos = "h1";
+				RookPiece = board.get(oldRookpos);
+				newRookpos = "f1";
+				if(KingPiece.isCheck("e1") || KingPiece.isCheck("f1") || KingPiece.isCheck("g1")) { return false; }
+			}
+			else if(newPos.equals("c8")) {
+				oldRookpos = "a8";
+				RookPiece = board.get(oldRookpos);
+				newRookpos = "d8";
+				if(KingPiece.isCheck("e8") || KingPiece.isCheck("d8") || KingPiece.isCheck("c8")) { return false; }
+			}
+			else { //newPos is "g8"
+				oldRookpos = "h8";
+				RookPiece = board.get(oldRookpos);
+				newRookpos = "f8";
+				if(KingPiece.isCheck("e8") || KingPiece.isCheck("f8") || KingPiece.isCheck("g8")) { return false; }
+			}
+			
+			if(RookPiece instanceof Rook) {	
+				if(KingPiece.hasMoved() == false && RookPiece.hasMoved() == false) {
+					if(RookPiece.isPathEmpty(oldRookpos, oldPos) == true) { //check if path between king and rook is empty
+						/*all conditions met, now castle*/
+						KingPiece.move(oldPos, newPos, '0');
+						KingPiece.sethasMoved(true);
+						RookPiece.move(oldRookpos, newRookpos, '0');
+						RookPiece.sethasMoved(true);
+						printboard();
+						return true;
+					}
+					else {
+						return false; //cannot castle if path between king and rook not empty
+					}
+				}
+				else {
+					return false; //cannot castle if king or rook have moved before
+				}
+			}
+			else {
+				return false; //cannot castle king with any piece other than rook
+			}
+		}
+		else {
+			return false;
+		}
+	}
+	
 
 }

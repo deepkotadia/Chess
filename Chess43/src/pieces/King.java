@@ -18,13 +18,15 @@ public class King extends Piece{
 
 
 	public boolean isMoveValid(String oldPos, String newPos) {
-		String piece_oldPos = Chess.board.get(oldPos).getvalue();
-		String piece_newPos = Chess.board.get(newPos).getvalue();
 		
 		/*to check if newPos is a box in the bounds of the board*/
 		if(Chess.board.containsKey(newPos) == false) {
 			return false;
 		}
+		
+		String piece_oldPos = Chess.board.get(oldPos).getvalue();
+		String piece_newPos = Chess.board.get(newPos).getvalue();
+
 		
 		/*to check if Valid move for king*/
 		
@@ -35,7 +37,7 @@ public class King extends Piece{
 			
 			//to check if the newpos is empty
 			if(Chess.board.get(newPos).getvalue().equals("  ") || Chess.board.get(newPos).getvalue().equals("##")) {
-				if(!(isCheck(oldPos, newPos))) {
+				if(!(isCheck(newPos))) {
 					return true;
 					
 				}
@@ -55,7 +57,7 @@ public class King extends Piece{
 				}
 				
 				else {
-					if(!isCheck(oldPos,newPos)) {     //there is a piece at the new position, we need to move there and kill that piece
+					if(!isCheck(newPos)) {     //there is a piece at the new position, we need to move there and kill that piece
 						return true;
 					}
 					else {
@@ -90,7 +92,7 @@ public class King extends Piece{
 	}
 	
 	
-	public boolean isCheck(String oldPos, String newPos) {
+	public boolean isCheck(String filerank) {
 		//TODO
 		
 		return false;

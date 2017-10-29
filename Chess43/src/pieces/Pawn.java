@@ -20,6 +20,11 @@ public class Pawn extends Piece {
 	//@Override
 	public boolean isMoveValid(String oldPos, String newPos) {
 		
+		/*to check if newPos is a box in the bounds of the board*/
+		if(Chess.board.containsKey(newPos) == false) {
+			return false;
+		}
+		
 		String piece_oldPos = Chess.board.get(oldPos).getvalue();
 		String piece_newPos = Chess.board.get(newPos).getvalue();
 		char oldPosalpha = oldPos.charAt(0);
@@ -27,10 +32,6 @@ public class Pawn extends Piece {
 		char newPosalpha = newPos.charAt(0);
 		int newPosnum = newPos.charAt(1) - '0';
 		
-		/*to check if newPos is a box in the bounds of the board*/
-		if(Chess.board.containsKey(newPos) == false) {
-			return false;
-		}
 		
 		if(piece_oldPos.charAt(0) == 'w') { //piece is white
 			if(newPosnum <= oldPosnum) {

@@ -21,13 +21,14 @@ public class Knight extends Piece {
 	//@Override
 	public boolean isMoveValid(String oldPos, String newPos) {
 		
-		String piece_oldPos = Chess.board.get(oldPos).getvalue();
-		String piece_newPos = Chess.board.get(newPos).getvalue();
-		
 		/*to check if newPos is a box in the bounds of the board*/
 		if(Chess.board.containsKey(newPos) == false) {
 			return false;
 		}
+		
+		String piece_oldPos = Chess.board.get(oldPos).getvalue();
+		String piece_newPos = Chess.board.get(newPos).getvalue();
+		
 		
 		/*Given a knight at a position, valid moves contains fileranks for all possible moves for that knight*/
 		ArrayList<String> validmoves = new ArrayList<String>();

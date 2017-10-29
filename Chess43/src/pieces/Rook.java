@@ -20,14 +20,14 @@ public class Rook extends Piece {
 
 	//@Override
 	public boolean isMoveValid(String oldPos, String newPos) {
-		String piece_oldPos = Chess.board.get(oldPos).getvalue();
-		String piece_newPos = Chess.board.get(newPos).getvalue();
 		
 		/*to check if newPos is a box in the bounds of the board*/
 		if(Chess.board.containsKey(newPos) == false) {
-			//System.out.println("Illegal move, try again");
 			return false;
 		}
+		
+		String piece_oldPos = Chess.board.get(oldPos).getvalue();
+		String piece_newPos = Chess.board.get(newPos).getvalue();
 		
 		/*to check if valid move for a Rook*/
 		if((oldPos.charAt(0) == newPos.charAt(0) || oldPos.charAt(1) == newPos.charAt(1)) && !(oldPos.equals(newPos))) {

@@ -21,13 +21,14 @@ public class Bishop extends Piece{
 
 
 	public boolean isMoveValid(String oldPos, String newPos) {
-		String piece_oldPos=Chess.board.get(oldPos).getvalue();
-		String piece_newPos=Chess.board.get(newPos).getvalue();
 		
 		/*to check if newPos is a box in the bounds of the board*/
 		if(Chess.board.containsKey(newPos) == false) {
 			return false;
 		}
+		
+		String piece_oldPos=Chess.board.get(oldPos).getvalue();
+		String piece_newPos=Chess.board.get(newPos).getvalue();
 		
 		//to check if valid move for a bishop:
 		if((Math.abs(oldPos.charAt(0) - newPos.charAt(0)) == Math.abs (oldPos.charAt(1) - newPos.charAt(1))) && !(oldPos.equals(newPos))) {

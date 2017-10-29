@@ -22,14 +22,15 @@ public class Queen extends Piece {
 
 	//@Override
 	public boolean isMoveValid(String oldPos, String newPos) {
-		String piece_oldPos = Chess.board.get(oldPos).getvalue();
-		String piece_newPos = Chess.board.get(newPos).getvalue();
 		
 		/*to check if newPos is a box in the bounds of the board*/
 		if(Chess.board.containsKey(newPos) == false) {
-			//System.out.println("Illegal move, try again");
 			return false;
 		}
+		
+		String piece_oldPos = Chess.board.get(oldPos).getvalue();
+		String piece_newPos = Chess.board.get(newPos).getvalue();
+		
 		
 		/*to check if valid move for Queen (combination of rook and bishop) */
 		
