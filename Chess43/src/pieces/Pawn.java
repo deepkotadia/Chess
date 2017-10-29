@@ -122,7 +122,7 @@ public class Pawn extends Piece {
 	
 	public void move(String oldPos, String newPos, char promopiece) {
 		Piece piece_oldPos = Chess.board.get(oldPos);
-		char newPosalpha = newPos.charAt(0);
+		//char newPosalpha = newPos.charAt(0);
 		int newPosnum = newPos.charAt(1) - '0';
 		
 		//move piece to newPos
@@ -137,7 +137,7 @@ public class Pawn extends Piece {
 		}
 
 		if(newPosnum == 1 || newPosnum == 8) {
-			pawn_promotion(newPosalpha, newPosnum);
+			pawn_promotion(newPos, promopiece);
 		}
 	}
 	
@@ -177,8 +177,54 @@ public class Pawn extends Piece {
 	}
 	
 	
-	private void pawn_promotion(char newPosalpha, int newPosnum) {
-		//TODO
+	private void pawn_promotion(String newPos, char promopiece) {
+		int newPosnum = newPos.charAt(1)-'0';
+		
+		Piece promopiecetype;
+		
+		switch(promopiece) {
+		
+		  case 'R' :
+		    if(newPosnum == 8){
+		      promopiecetype = new Rook("wR");
+		    }
+		    else{
+		      promopiecetype = new Rook("bR");
+		    }
+		    break;
+		    
+		  case 'N' :
+		    if(newPosnum == 8){
+		      promopiecetype = new Knight("wN");
+		    }
+		    else{
+		      promopiecetype = new Knight("bN");
+		    }
+		    break;
+		    
+		  case 'B' :
+		    if(newPosnum == 8){
+		      promopiecetype = new Bishop("wB");
+		    }
+		    else{
+		      promopiecetype = new Bishop("bB");
+		    }
+		    break;
+		    
+		  default :
+		    if(newPosnum == 8){
+		      promopiecetype = new Queen("wQ");
+		    }
+		    else{
+		      promopiecetype = new Queen("bQ");
+		    }
+		    break;
+		    
+		}
+		
+		/*promote pawn to desired piece, if none chosen, Queen by default*/
+		Chess.board.put(newPos, promopiecetype);
+		
 	}
 	
 
