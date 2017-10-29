@@ -13,10 +13,15 @@ import chess.Chess;
 
 public class Rook extends Piece {
 
+	public Rook(String value) {
+		super(value);
+	}
+
+
 	//@Override
-	public static boolean isMoveValid(String oldPos, String newPos) {
-		String piece_oldPos = Chess.board.get(oldPos);
-		String piece_newPos = Chess.board.get(newPos);
+	public boolean isMoveValid(String oldPos, String newPos) {
+		String piece_oldPos = Chess.board.get(oldPos).getvalue();
+		String piece_newPos = Chess.board.get(newPos).getvalue();
 		
 		/*to check if newPos is a box in the bounds of the board*/
 		if(Chess.board.containsKey(newPos) == false) {
@@ -28,7 +33,7 @@ public class Rook extends Piece {
 		if((oldPos.charAt(0) == newPos.charAt(0) || oldPos.charAt(1) == newPos.charAt(1)) && !(oldPos.equals(newPos))) {
 			
 			/*to check if newPos is empty*/
-			if(Chess.board.get(newPos).equals("  ") || Chess.board.get(newPos).equals("##")) {
+			if(Chess.board.get(newPos).getvalue().equals("  ") || Chess.board.get(newPos).getvalue().equals("##")) {
 				if(isPathEmpty(oldPos,newPos)) {
 					//valid move, can move
 					return true;
@@ -67,24 +72,24 @@ public class Rook extends Piece {
 	}
 	
 	
-	public static void move(String oldPos, String newPos) {
-		String piece_oldPos = Chess.board.get(oldPos);
+	public void move(String oldPos, String newPos, char promopiece) {
+		Piece piece_oldPos = Chess.board.get(oldPos);
 		
 		//move piece to newPos
 		Chess.board.put(newPos, piece_oldPos);
 		
 		//make oldPos an empty box
 		if(Chess.isBlackBox(oldPos.charAt(0), oldPos.charAt(1)-'0')) {
-			Chess.board.put(oldPos, "##");
+			Chess.board.put(oldPos, new EmptySquare("##"));
 		}
 		else {
-			Chess.board.put(oldPos, "  ");
+			Chess.board.put(oldPos, new EmptySquare("  "));
 		}
 	}
 	
 
 	//@Override
-	public static boolean isPathEmpty(String oldPos, String newPos) {
+	public boolean isPathEmpty(String oldPos, String newPos) {
 		if (oldPos.charAt(0) == newPos.charAt(0)) {
 			int i;
 			int numoldPos = oldPos.charAt(1) - '0';
@@ -132,7 +137,7 @@ public class Rook extends Piece {
 	private static boolean isBoxEmpty(char alpha, int num) {
 		String filerank = alpha + "" + num;
 		
-		if(Chess.board.get(filerank).equals("##") || Chess.board.get(filerank).equals("  ")) { //box is empty
+		if(Chess.board.get(filerank).getvalue().equals("##") || Chess.board.get(filerank).getvalue().equals("  ")) { //box is empty
 			return true;
 		}
 		

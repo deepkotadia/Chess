@@ -12,9 +12,14 @@ import chess.Chess;
  */
 public class King extends Piece{
 
-	public static boolean isMoveValid(String oldPos, String newPos) {
-		String piece_oldPos = Chess.board.get(oldPos);
-		String piece_newPos = Chess.board.get(newPos);
+	public King(String value) {
+		super(value);
+	}
+
+
+	public boolean isMoveValid(String oldPos, String newPos) {
+		String piece_oldPos = Chess.board.get(oldPos).getvalue();
+		String piece_newPos = Chess.board.get(newPos).getvalue();
 		
 		/*to check if newPos is a box in the bounds of the board*/
 		if(Chess.board.containsKey(newPos) == false) {
@@ -29,7 +34,7 @@ public class King extends Piece{
 		if( (x==0 && y==1) || (x==1 && y==0) || (x==y && x==1 && y==1)) {
 			
 			//to check if the newpos is empty
-			if(Chess.board.get(newPos).equals("  ") || Chess.board.get(newPos).equals("##")) {
+			if(Chess.board.get(newPos).getvalue().equals("  ") || Chess.board.get(newPos).getvalue().equals("##")) {
 				if(!(isCheck(oldPos, newPos))) {
 					return true;
 					
@@ -69,23 +74,23 @@ public class King extends Piece{
 	}
 	
 	
-	public static void move(String oldPos, String newPos) {
-		String piece_oldPos = Chess.board.get(oldPos);
+	public void move(String oldPos, String newPos, char promopiece) {
+		Piece piece_oldPos = Chess.board.get(oldPos);
 		
 		//move piece to newPos
 		Chess.board.put(newPos, piece_oldPos);
 		
 		//make oldPos an empty box
 		if(Chess.isBlackBox(oldPos.charAt(0), oldPos.charAt(1)-'0')) {
-			Chess.board.put(oldPos, "##");
+			Chess.board.put(oldPos, new EmptySquare("##"));
 		}
 		else {
-			Chess.board.put(oldPos, "  ");
+			Chess.board.put(oldPos, new EmptySquare("  "));
 		}
 	}
 	
 	
-	public static boolean isCheck(String oldPos, String newPos) {
+	public boolean isCheck(String oldPos, String newPos) {
 		//TODO
 		
 		return false;
@@ -93,7 +98,7 @@ public class King extends Piece{
 	
 	
 	
-	public static boolean isPathEmpty(String oldPos, String newPos) {
+	public boolean isPathEmpty(String oldPos, String newPos) {
 		return false;
 	}
 

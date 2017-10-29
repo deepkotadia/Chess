@@ -15,9 +15,14 @@ import java.util.List;
  */
 public class Bishop extends Piece{
 
-	public static boolean isMoveValid(String oldPos, String newPos) {
-		String piece_oldPos=Chess.board.get(oldPos);
-		String piece_newPos=Chess.board.get(newPos);
+	public Bishop(String value) {
+		super(value);
+	}
+
+
+	public boolean isMoveValid(String oldPos, String newPos) {
+		String piece_oldPos=Chess.board.get(oldPos).getvalue();
+		String piece_newPos=Chess.board.get(newPos).getvalue();
 		
 		/*to check if newPos is a box in the bounds of the board*/
 		if(Chess.board.containsKey(newPos) == false) {
@@ -28,7 +33,7 @@ public class Bishop extends Piece{
 		if((Math.abs(oldPos.charAt(0) - newPos.charAt(0)) == Math.abs (oldPos.charAt(1) - newPos.charAt(1))) && !(oldPos.equals(newPos))) {
 			
 			//to check if the newPos is empty:
-			if(Chess.board.get(newPos).equals("  ") || Chess.board.get(newPos).equals("##")) {
+			if(Chess.board.get(newPos).getvalue().equals("  ") || Chess.board.get(newPos).getvalue().equals("##")) {
 				if(isPathEmpty(oldPos, newPos)) {                
 					return true;
 				}
@@ -66,27 +71,27 @@ public class Bishop extends Piece{
 	}
 	
 	
-	public static void move(String oldPos, String newPos) {
-		String piece_oldPos = Chess.board.get(oldPos);
+	public void move(String oldPos, String newPos, char promopiece) {
+		Piece piece_oldPos = Chess.board.get(oldPos);
 		
 		//move piece to newPos
 		Chess.board.put(newPos, piece_oldPos);
 		
 		//make oldPos an empty box
 		if(Chess.isBlackBox(oldPos.charAt(0), oldPos.charAt(1)-'0')) {
-			Chess.board.put(oldPos, "##");
+			Chess.board.put(oldPos, new EmptySquare("##"));
 		}
 		else {
-			Chess.board.put(oldPos, "  ");
+			Chess.board.put(oldPos, new EmptySquare("  "));
 		}
 	}
 
 	
-	public static boolean isPathEmpty(String oldPos, String newPos) {
+	public boolean isPathEmpty(String oldPos, String newPos) {
 		List<String> boxes=getIndicesInBetween(oldPos, newPos);
 		
 		for (String index:boxes) {
-			if(!(Chess.board.get(index).equals("##") || Chess.board.get(index).equals("  "))) //box is empty
+			if(!(Chess.board.get(index).getvalue().equals("##") || Chess.board.get(index).getvalue().equals("  "))) //box is empty
 				return false;
 		
 		}

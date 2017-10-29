@@ -13,7 +13,7 @@ import pieces.*;
 
 public class Chess {
 
-	public static HashMap<String, String> board = new HashMap<String, String>(70);
+	public static HashMap<String, Piece> board = new HashMap<String, Piece>(70);
 	
 	public static void initboard() {
 		
@@ -23,50 +23,50 @@ public class Chess {
 				String filerank = Character.toString(alpha) + Integer.toString(num);
 				
 				if(isBlackBox(alpha, num)) {
-					board.put(filerank, "##");
+					board.put(filerank, new EmptySquare("##"));
 				}
 				else {
-					board.put(filerank, "  ");
+					board.put(filerank, new EmptySquare("  "));
 				}
 				
 				//fill black side
 				if(filerank.equals("a8") || filerank.equals("h8")) {
-					board.put(filerank, "bR");
+					board.put(filerank, new Rook("bR"));
 				}
 				else if(filerank.equals("b8") || filerank.equals("g8")) {
-					board.put(filerank, "bN");
+					board.put(filerank, new Knight("bN"));
 				}
 				else if(filerank.equals("c8") || filerank.equals("f8")) {
-					board.put(filerank, "bB");
+					board.put(filerank, new Bishop("bB"));
 				}
 				else if(filerank.equals("d8")) {
-					board.put(filerank, "bQ");
+					board.put(filerank, new Queen("bQ"));
 				}
 				else if(filerank.equals("e8")) {
-					board.put(filerank, "bK");
+					board.put(filerank, new King("bK"));
 				}
 				else if(num == 7) {
-					board.put(filerank, "bp");
+					board.put(filerank, new Pawn("bp"));
 				}
 				
 				//fill white side
 				if(filerank.equals("a1") || filerank.equals("h1")) {
-					board.put(filerank, "wR");
+					board.put(filerank, new Rook("wR"));
 				}
 				else if(filerank.equals("b1") || filerank.equals("g1")) {
-					board.put(filerank, "wN");
+					board.put(filerank, new Knight("wN"));
 				}
 				else if(filerank.equals("c1") || filerank.equals("f1")) {
-					board.put(filerank, "wB");
+					board.put(filerank, new Bishop("wB"));
 				}
 				else if(filerank.equals("d1")) {
-					board.put(filerank, "wQ");
+					board.put(filerank, new Queen("wQ"));
 				}
 				else if(filerank.equals("e1")) {
-					board.put(filerank, "wK");
+					board.put(filerank, new King("wK"));
 				}
 				else if(num == 2) {
-					board.put(filerank, "wp");
+					board.put(filerank, new Pawn("wp"));
 				}
 				
 			}
@@ -90,7 +90,7 @@ public class Chess {
 		for(int num = 8; num >= 1; num--) {
 			for(char alpha = 'a'; alpha <= 'h'; alpha++) {
 				String filerank = Character.toString(alpha) + Integer.toString(num);
-				String piece_at_index = board.get(filerank);
+				String piece_at_index = board.get(filerank).getvalue();
 				System.out.print(piece_at_index + " ");
 			}
 			System.out.println(num);
@@ -108,8 +108,9 @@ public class Chess {
 		
 		initboard();
 		printboard();
-		String wholestr, oldPos, newPos, piece_oldPos;
-		char piece;
+		String wholestr, oldPos, newPos, promotion;
+		Piece piece_oldPos;
+		char promopiece;
 		String[] inputstr_as_arr = new String[3];
 		
 		boolean is_white_move = true; //true when it's white's move, false when it's black's move
@@ -119,6 +120,7 @@ public class Chess {
 		
 		while(state_of_game() == 0 || state_of_game() == 1) { //to check if game is still on
 			
+			
 			if(is_white_move == true) {
 				System.out.print("White's move: ");
 			}
@@ -127,7 +129,7 @@ public class Chess {
 			}
 			wholestr = sc.nextLine(); 
 			
-			while(wholestr.length() != 5 || wholestr.charAt(2) != ' ') {
+			while(wholestr.length() > 7 || wholestr.charAt(2) != ' ' || (wholestr.length() == 7 && wholestr.charAt(5) != ' ')) {
 				System.out.println("Invalid input; enter in form filerank filerank");
 				System.out.println();
 				if(is_white_move == true) {
@@ -142,58 +144,24 @@ public class Chess {
 			System.out.println();
 			
 			inputstr_as_arr = wholestr.split(" ");
+			
+			/*This is for pawn promotion, if applicable*/
+			if(inputstr_as_arr.length > 2) {
+				promotion = inputstr_as_arr[2];
+				promopiece = promotion.charAt(0);
+			}
+			else {
+				promopiece = '0'; //set promotion string to 0 (no promotion)
+			}
+			
 			oldPos = inputstr_as_arr[0];
 			newPos = inputstr_as_arr[1];
 			piece_oldPos = board.get(oldPos);
 			
-			if((is_white_move == true && piece_oldPos.charAt(0) == 'w') || (is_white_move == false && piece_oldPos.charAt(0) == 'b')) {
-				piece = piece_oldPos.charAt(1);
+			if((is_white_move == true && piece_oldPos.getvalue().charAt(0) == 'w') || (is_white_move == false && piece_oldPos.getvalue().charAt(0) == 'b')) {
 				
-				switch(piece) {
-					case 'p' : 
-						is_move_valid = Pawn.isMoveValid(oldPos, newPos);
-						if(is_move_valid) {
-							Pawn.move(oldPos, newPos);
-							
-						}
-						break;
-					case 'R' :
-						is_move_valid = Rook.isMoveValid(oldPos, newPos);
-						if(is_move_valid) {
-							Rook.move(oldPos, newPos);
-							
-						}
-						break;
-					case 'N' :
-						is_move_valid = Knight.isMoveValid(oldPos, newPos);
-						if(is_move_valid) {
-							Knight.move(oldPos, newPos);
-							
-						}
-						break;
-					case 'B' :
-						is_move_valid = Bishop.isMoveValid(oldPos, newPos);
-						if(is_move_valid) {
-							Bishop.move(oldPos, newPos);
-							
-						}
-						break;
-					case 'Q' :
-						is_move_valid = Queen.isMoveValid(oldPos, newPos);
-						if(is_move_valid) {
-							Queen.move(oldPos, newPos);
-							
-						}
-						break;
-					case 'K' :
-						is_move_valid = King.isMoveValid(oldPos, newPos);
-						if(is_move_valid) {
-							King.move(oldPos, newPos);
-							
-						}
-						break;
-				}
-				
+				/*Test if requested move is valid for the corresponding piece (polymorphism used here)*/
+				is_move_valid = piece_oldPos.isMoveValid(oldPos, newPos);
 			}
 			else {
 				
@@ -204,7 +172,11 @@ public class Chess {
 			}
 			
 			if(is_move_valid == true) {
+				
+				/*move is valid, so now move the piece (update hashmap)*/
+				piece_oldPos.move(oldPos, newPos, promopiece);
 				printboard();
+				
 				/*other person's turn, so switch*/
 				if(is_white_move == true) {
 					is_white_move = false; //now black's turn

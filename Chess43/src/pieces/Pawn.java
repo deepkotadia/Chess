@@ -12,11 +12,16 @@ import chess.Chess;
  */
 public class Pawn extends Piece {
 
+	public Pawn(String value) {
+		super(value);
+	}
+
+
 	//@Override
-	public static boolean isMoveValid(String oldPos, String newPos) {
+	public boolean isMoveValid(String oldPos, String newPos) {
 		
-		String piece_oldPos = Chess.board.get(oldPos);
-		String piece_newPos = Chess.board.get(newPos);
+		String piece_oldPos = Chess.board.get(oldPos).getvalue();
+		String piece_newPos = Chess.board.get(newPos).getvalue();
 		char oldPosalpha = oldPos.charAt(0);
 		int oldPosnum = oldPos.charAt(1) - '0';
 		char newPosalpha = newPos.charAt(0);
@@ -115,8 +120,8 @@ public class Pawn extends Piece {
 	}
 	
 	
-	public static void move(String oldPos, String newPos) {
-		String piece_oldPos = Chess.board.get(oldPos);
+	public void move(String oldPos, String newPos, char promopiece) {
+		Piece piece_oldPos = Chess.board.get(oldPos);
 		char newPosalpha = newPos.charAt(0);
 		int newPosnum = newPos.charAt(1) - '0';
 		
@@ -125,10 +130,10 @@ public class Pawn extends Piece {
 		
 		//make oldPos an empty box
 		if(Chess.isBlackBox(oldPos.charAt(0), oldPos.charAt(1)-'0')) {
-			Chess.board.put(oldPos, "##");
+			Chess.board.put(oldPos, new EmptySquare("##"));
 		}
 		else {
-			Chess.board.put(oldPos, "  ");
+			Chess.board.put(oldPos, new EmptySquare("  "));
 		}
 
 		if(newPosnum == 1 || newPosnum == 8) {
@@ -138,7 +143,7 @@ public class Pawn extends Piece {
 	
 
 	//@Override
-	public static boolean isPathEmpty(String oldPos, String newPos) {
+	public boolean isPathEmpty(String oldPos, String newPos) {
 		int i;
 		int numoldPos = oldPos.charAt(1) - '0';
 		int numnewPos = newPos.charAt(1) - '0';
@@ -161,10 +166,10 @@ public class Pawn extends Piece {
 		return true;
 	}
 	
-	private static boolean isBoxEmpty(char alpha, int num) {
+	private boolean isBoxEmpty(char alpha, int num) {
 		String filerank = alpha + "" + num;
 		
-		if(Chess.board.get(filerank).equals("##") || Chess.board.get(filerank).equals("  ")) { //box is empty
+		if(Chess.board.get(filerank).getvalue().equals("##") || Chess.board.get(filerank).getvalue().equals("  ")) { //box is empty
 			return true;
 		}
 		
@@ -172,7 +177,7 @@ public class Pawn extends Piece {
 	}
 	
 	
-	private static void pawn_promotion(char newPosalpha, int newPosnum) {
+	private void pawn_promotion(char newPosalpha, int newPosnum) {
 		//TODO
 	}
 	

@@ -10,15 +10,25 @@ package pieces;
  */
 public abstract class Piece {
 	
-	public static void move(String oldPos, String newPos) {
+	String value;
+	
+	public Piece(String value) {
+		this.value = value;
+	}
+	
+	public String getvalue() {
+		return this.value;
+	}
+	
+	public void move(String oldPos, String newPos, char promopiece) {
 		return;
 	}
 	
-	public static boolean isMoveValid(String oldPos, String newPos) {
+	public boolean isMoveValid(String oldPos, String newPos) {
 		return true;
 	}
 	
-	public static boolean isPathEmpty(String oldPos, String newPos) {
+	public boolean isPathEmpty(String oldPos, String newPos) {
 		return true;
 	}
 

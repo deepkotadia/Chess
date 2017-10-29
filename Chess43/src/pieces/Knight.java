@@ -13,11 +13,16 @@ import java.util.*;
  */
 public class Knight extends Piece {
 
+	public Knight(String value) {
+		super(value);
+	}
+
+
 	//@Override
-	public static boolean isMoveValid(String oldPos, String newPos) {
+	public boolean isMoveValid(String oldPos, String newPos) {
 		
-		String piece_oldPos = Chess.board.get(oldPos);
-		String piece_newPos = Chess.board.get(newPos);
+		String piece_oldPos = Chess.board.get(oldPos).getvalue();
+		String piece_newPos = Chess.board.get(newPos).getvalue();
 		
 		/*to check if newPos is a box in the bounds of the board*/
 		if(Chess.board.containsKey(newPos) == false) {
@@ -68,7 +73,7 @@ public class Knight extends Piece {
 		/*is a valid Knight move*/
 			
 			/*to check if newPos is empty*/
-			if(Chess.board.get(newPos).equals("  ") || Chess.board.get(newPos).equals("##")) {
+			if(Chess.board.get(newPos) instanceof EmptySquare) {
 				return true;
 			}
 			else {
@@ -91,24 +96,24 @@ public class Knight extends Piece {
 	}
 	
 	
-	public static void move(String oldPos, String newPos) {
-		String piece_oldPos = Chess.board.get(oldPos);
+	public void move(String oldPos, String newPos, char promopiece) {
+		Piece piece_oldPos = Chess.board.get(oldPos);
 		
 		//move piece to newPos
 		Chess.board.put(newPos, piece_oldPos);
 		
 		//make oldPos an empty box
 		if(Chess.isBlackBox(oldPos.charAt(0), oldPos.charAt(1)-'0')) {
-			Chess.board.put(oldPos, "##");
+			Chess.board.put(oldPos, new EmptySquare("##"));
 		}
 		else {
-			Chess.board.put(oldPos, "  ");
+			Chess.board.put(oldPos, new EmptySquare("  "));
 		}
 	}
 	
 
 	//@Override
-	public static boolean isPathEmpty(String oldPos, String newPos) {
+	public boolean isPathEmpty(String oldPos, String newPos) {
 		// TODO Auto-generated method stub
 		return false;
 	}
