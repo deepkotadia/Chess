@@ -116,11 +116,15 @@ public class Chess {
 		boolean is_white_move = true; //true when it's white's move, false when it's black's move
 		boolean is_move_valid = false; //return value from move method
 		boolean castle_success = false; //true if castling was successful, false otherwise
+		boolean draw_proposal = false; //true when one player asks the other for a draw
 		
 		Scanner sc = new Scanner(System.in);
 		
 		while(state_of_game() == 0 || state_of_game() == 1) { //to check if game is still on
 			
+			if(state_of_game() == 1) {
+				System.out.println("Check");
+			}
 			
 			if(is_white_move == true) {
 				System.out.print("White's move: ");
@@ -130,7 +134,7 @@ public class Chess {
 			}
 			wholestr = sc.nextLine(); 
 			
-			while(wholestr.length() > 7 || wholestr.charAt(2) != ' ' || (wholestr.length() == 7 && wholestr.charAt(5) != ' ')) {
+			while((wholestr.length() >= 7 && (wholestr.charAt(2) != ' ' || wholestr.charAt(5) != ' ')) || wholestr.length() == 0) {
 				System.out.println("Illegal move, try again");
 				System.out.println();
 				if(is_white_move == true) {
@@ -143,6 +147,18 @@ public class Chess {
 			}
 			
 			System.out.println();
+			
+			/*check if player resigned*/
+			if(wholestr.equals("resign")) {
+				if(is_white_move) {
+					System.out.println("Black wins");
+				}
+				else {
+					System.out.println("White wins");
+				}
+				sc.close();
+				return;
+			}
 			
 			inputstr_as_arr = wholestr.split(" ");
 			
@@ -218,7 +234,7 @@ public class Chess {
 	/*function to check state of the game after every legal move
 	 * returns 0 if game is still on
 	 * returns 1 if check
-	 * returns -1 if checkmate/draw/resign, game over
+	 * returns -1 if checkmate/stalemate, game over
 	 * */
 	public static int state_of_game() {
 		return 0;
