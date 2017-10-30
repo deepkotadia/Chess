@@ -108,7 +108,8 @@ public class Chess {
 		
 		initboard();
 		printboard();
-		String wholestr, oldPos, newPos, promotion;
+		String wholestr, oldPos, newPos;
+		String promotion = null;
 		Piece piece_oldPos;
 		char promopiece;
 		String[] inputstr_as_arr = new String[3];
@@ -148,7 +149,7 @@ public class Chess {
 			
 			System.out.println();
 			
-			/*check if player resigned*/
+			/*check if player resigned, if yes, end game, opposition wins*/
 			if(wholestr.equals("resign")) {
 				if(is_white_move) {
 					System.out.println("Black wins");
@@ -160,15 +161,40 @@ public class Chess {
 				return;
 			}
 			
+			/*check if one player asked for a draw in previous move and the other accepted it, if yes, game over, draw*/
+			if(draw_proposal == true) {
+				if(wholestr.equals("draw")) { //draw proposal accepted
+					System.out.println("draw");
+					sc.close();
+					return;
+				}
+				else { //draw proposal denied
+					draw_proposal = false;
+				}
+			}
+			
 			inputstr_as_arr = wholestr.split(" ");
 			
 			/*This is for pawn promotion, if applicable*/
 			if(inputstr_as_arr.length > 2) {
 				promotion = inputstr_as_arr[2];
 				promopiece = promotion.charAt(0);
+				
+				/*check if one player asked for a draw*/
+				if(promotion.equals("draw?")) {
+					draw_proposal = true;
+					promopiece = '0';
+				}
+				
 			}
 			else {
 				promopiece = '0'; //set promotion string to 0 (no promotion)
+			}
+			
+			if(inputstr_as_arr.length < 2) { //some input that does not make sense, is not an actual chess move
+				System.out.println("Illegal move, try again");
+				System.out.println();
+				continue;
 			}
 			
 			castle_success = false;
