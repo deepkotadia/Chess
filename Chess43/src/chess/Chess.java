@@ -264,13 +264,28 @@ public class Chess {
 				if(is_white_move==true) {
 					kingPos=kingPosition('b');
 					if(isCheck("bK",kingPos)) { //my move resulted in enemy king being in check
+						if(isCheckmate('b', kingPos)) {
+							System.out.println("Checkmate");
+							System.out.println();
+							System.out.println("White wins");
+							sc.close();
+							return;
+						}
 						System.out.println("Check");
 						System.out.println();
 					}
 				}
 				
 				else {
-					if(isCheck("wK",kingPosition('w'))) {
+					kingPos = kingPosition('w');
+					if(isCheck("wK",kingPos)) {
+						if(isCheckmate('w', kingPos)) {
+							System.out.println("Checkmate");
+							System.out.println();
+							System.out.println("Black wins");
+							sc.close();
+							return;
+						}
 						System.out.println("Check");
 						System.out.println();
 					}
@@ -314,6 +329,70 @@ public class Chess {
 	 * */
 	public static int state_of_game() {
 		return 0;
+	}
+	
+	
+	private static boolean isCheckmate(char color, String kingPos) {
+		ArrayList<String> possiblemoves = new ArrayList<String>();
+		
+		String top = Character.toString((char)(kingPos.charAt(0) + 0)) + (char)(((kingPos.charAt(1)-'0')+1)+'0');
+		String topleft = Character.toString((char)(kingPos.charAt(0) - 1)) + (char)(((kingPos.charAt(1)-'0')+1)+'0');
+		String topright = Character.toString((char)(kingPos.charAt(0) + 1)) + (char)(((kingPos.charAt(1)-'0')+1)+'0');
+		String right = Character.toString((char)(kingPos.charAt(0) + 1)) + (char)(((kingPos.charAt(1)-'0')+0)+'0');
+		String left = Character.toString((char)(kingPos.charAt(0) - 1)) + (char)(((kingPos.charAt(1)-'0')+0)+'0');
+		String bottomleft = Character.toString((char)(kingPos.charAt(0) - 1)) + (char)(((kingPos.charAt(1)-'0')-1)+'0');
+		String bottomright = Character.toString((char)(kingPos.charAt(0) + 1)) + (char)(((kingPos.charAt(1)-'0')-1)+'0');
+		String bottom = Character.toString((char)(kingPos.charAt(0) + 0)) + (char)(((kingPos.charAt(1)-'0')-1)+'0');
+		
+		if(Chess.board.containsKey(top)) {
+			possiblemoves.add(top);
+		}
+		if(Chess.board.containsKey(topleft)) {
+			possiblemoves.add(topleft);
+		}
+		if(Chess.board.containsKey(topright)) {
+			possiblemoves.add(topright);
+		}
+		if(Chess.board.containsKey(right)) {
+			possiblemoves.add(right);
+		}
+		if(Chess.board.containsKey(left)) {
+			possiblemoves.add(left);
+		}
+		if(Chess.board.containsKey(bottomleft)) {
+			possiblemoves.add(bottomleft);
+		}
+		if(Chess.board.containsKey(bottomright)) {
+			possiblemoves.add(bottomright);
+		}
+		if(Chess.board.containsKey(bottom)) {
+			possiblemoves.add(bottom);
+		}
+		
+		/*At this point, possiblemoves has all the possible points the king can move based on its position. Now test if any of these do not result in check
+		 * Otherwise, Checkmate!
+		 * */
+		
+		Piece Kingpiece  = board.get(kingPos);
+		board.put(kingPos, new EmptySquare("##")); //temporarily remove actual king from its position (replace with empty square, so does not interfere)
+		
+		if(color == 'w') {
+			for(int i = 0; i<possiblemoves.size(); i++) {
+				if(!(isCheck("wK", possiblemoves.get(i)))) {
+					board.put(kingPos, Kingpiece); //put actual king back to its position
+					return false; //there is at least one escape for the king, not checkmate yet!
+				}
+			}
+		}
+		else {
+			for(int i = 0; i<possiblemoves.size(); i++) {
+				if(!(isCheck("bK", possiblemoves.get(i)))) {
+					board.put(kingPos, Kingpiece); //put actual king back to its position
+					return false; //there is at least one escape for the king, not checkmate yet!
+				}
+			}
+		}
+		return true; //no escape routes, checkmate!!!
 	}
 	
 	
