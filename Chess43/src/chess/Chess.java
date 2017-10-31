@@ -374,18 +374,44 @@ public class Chess {
 		 * */
 		
 		Piece Kingpiece  = board.get(kingPos);
+		Piece blockingPiece= null;
 		board.put(kingPos, new EmptySquare("##")); //temporarily remove actual king from its position (replace with empty square, so does not interfere)
 		
 		if(color == 'w') {
 			for(int i = 0; i<possiblemoves.size(); i++) {
+				
+				if(board.get(possiblemoves.get(i)).getvalue().charAt(0)=='b') {
+					blockingPiece=board.get(possiblemoves.get(i));
+					board.put(possiblemoves.get(i), new EmptySquare("##"));
+					if(!(isCheck("wK", possiblemoves.get(i)))) {
+						board.put(kingPos, Kingpiece);
+						board.put(possiblemoves.get(i), blockingPiece);
+						return false;
+					}
+					board.put(possiblemoves.get(i), blockingPiece);
+				}
+				
 				if(!(isCheck("wK", possiblemoves.get(i)))) {
 					board.put(kingPos, Kingpiece); //put actual king back to its position
 					return false; //there is at least one escape for the king, not checkmate yet!
 				}
 			}
 		}
+		
 		else {
 			for(int i = 0; i<possiblemoves.size(); i++) {
+				
+				if(board.get(possiblemoves.get(i)).getvalue().charAt(0)=='w') {
+					blockingPiece=board.get(possiblemoves.get(i));
+					board.put(possiblemoves.get(i), new EmptySquare("##"));
+					if(!(isCheck("bK", possiblemoves.get(i)))) {
+						board.put(kingPos, Kingpiece);
+						board.put(possiblemoves.get(i), blockingPiece);
+						return false;
+					}
+					board.put(possiblemoves.get(i), blockingPiece);
+				}
+				
 				if(!(isCheck("bK", possiblemoves.get(i)))) {
 					board.put(kingPos, Kingpiece); //put actual king back to its position
 					return false; //there is at least one escape for the king, not checkmate yet!
