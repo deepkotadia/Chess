@@ -395,6 +395,11 @@ public class Chess {
 					board.put(kingPos, Kingpiece); //put actual king back to its position
 					return false; //there is at least one escape for the king, not checkmate yet!
 				}
+				
+				//to deal with both te ifs being skipped; that current index will result in check
+				
+					continue;
+				
 			}
 		}
 		
@@ -416,6 +421,10 @@ public class Chess {
 					board.put(kingPos, Kingpiece); //put actual king back to its position
 					return false; //there is at least one escape for the king, not checkmate yet!
 				}
+				
+				
+					continue;
+			
 			}
 		}
 		return true; //no escape routes, checkmate!!!
