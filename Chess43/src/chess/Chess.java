@@ -344,28 +344,28 @@ public class Chess {
 		String bottomright = Character.toString((char)(kingPos.charAt(0) + 1)) + (char)(((kingPos.charAt(1)-'0')-1)+'0');
 		String bottom = Character.toString((char)(kingPos.charAt(0) + 0)) + (char)(((kingPos.charAt(1)-'0')-1)+'0');
 		
-		if(Chess.board.containsKey(top)) {
+		if(Chess.board.containsKey(top) && board.get(top).getvalue().charAt(0) != color) {
 			possiblemoves.add(top);
 		}
-		if(Chess.board.containsKey(topleft)) {
+		if(Chess.board.containsKey(topleft) && board.get(topleft).getvalue().charAt(0) != color) {
 			possiblemoves.add(topleft);
 		}
-		if(Chess.board.containsKey(topright)) {
+		if(Chess.board.containsKey(topright) && board.get(topright).getvalue().charAt(0) != color) {
 			possiblemoves.add(topright);
 		}
-		if(Chess.board.containsKey(right)) {
+		if(Chess.board.containsKey(right) && board.get(right).getvalue().charAt(0) != color) {
 			possiblemoves.add(right);
 		}
-		if(Chess.board.containsKey(left)) {
+		if(Chess.board.containsKey(left) && board.get(left).getvalue().charAt(0) != color) {
 			possiblemoves.add(left);
 		}
-		if(Chess.board.containsKey(bottomleft)) {
+		if(Chess.board.containsKey(bottomleft) && board.get(bottomleft).getvalue().charAt(0) != color) {
 			possiblemoves.add(bottomleft);
 		}
-		if(Chess.board.containsKey(bottomright)) {
+		if(Chess.board.containsKey(bottomright) && board.get(bottomright).getvalue().charAt(0) != color) {
 			possiblemoves.add(bottomright);
 		}
-		if(Chess.board.containsKey(bottom)) {
+		if(Chess.board.containsKey(bottom) && board.get(bottom).getvalue().charAt(0) != color) {
 			possiblemoves.add(bottom);
 		}
 		
