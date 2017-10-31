@@ -42,8 +42,8 @@ public abstract class Piece {
 		return true;
 	}
 	
-	public boolean isCheck(String filerank) {
+	/*public boolean isCheck(String filerank) {
 		return false;
-	}
+	}*/
 
 }

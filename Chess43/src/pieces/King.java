@@ -37,7 +37,7 @@ public class King extends Piece{
 			
 			//to check if the newpos is empty
 			if(Chess.board.get(newPos).getvalue().equals("  ") || Chess.board.get(newPos).getvalue().equals("##")) {
-				if(!(isCheck(newPos))) {
+				/*if(!(isCheck(newPos))) {
 					return true;
 					
 				}
@@ -45,7 +45,8 @@ public class King extends Piece{
 				else {
 					//need to prompt user to try a different valid move. 
 					return false;
-				}
+				}*/
+				return true;
 				
 			}
 			
@@ -57,14 +58,15 @@ public class King extends Piece{
 				}
 				
 				else {
-					if(!isCheck(newPos)) {     //there is a piece at the new position, we need to move there and kill that piece
+				/*	if(!isCheck(newPos)) {     //there is a piece at the new position, we need to move there and kill that piece
 						return true;
 					}
 					else {
 						//path is not empty
 						return false;
-					}
-				}	
+					}*/
+					return true;
+				} 	
 			}
 			
 		}
@@ -90,15 +92,6 @@ public class King extends Piece{
 			Chess.board.put(oldPos, new EmptySquare("  "));
 		}
 	}
-	
-	
-	public boolean isCheck(String filerank) {
-		//TODO
-		
-		return false;
-	}
-	
-	
 	
 	public boolean isPathEmpty(String oldPos, String newPos) {
 		return false;

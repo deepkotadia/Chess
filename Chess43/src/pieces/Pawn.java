@@ -67,9 +67,11 @@ public class Pawn extends Piece {
 				return true;
 			}
 			else if(Math.abs(newPosnum - oldPosnum) == 1) { //one step move straight
-				//move one step
-				return true;
-				
+				if(isPathEmpty(oldPos, newPos)) {
+					//move one step
+					return true;
+				}
+				return false;
 			}
 			else {
 				//pawn cannot move more than two steps
@@ -108,8 +110,11 @@ public class Pawn extends Piece {
 				return true;
 			}
 			else if(Math.abs(newPosnum - oldPosnum) == 1) { //one step move straight
-				//just move
-				return true;
+				if(isPathEmpty(oldPos, newPos)) {
+					//move one step
+					return true;
+				}
+				return false;
 				
 			}
 			else {
@@ -150,14 +155,14 @@ public class Pawn extends Piece {
 		int numnewPos = newPos.charAt(1) - '0';
 		
 		if(numoldPos < numnewPos) { //going forward for white
-			for (i = numoldPos+1 ; i < numnewPos ; i++) {
+			for (i = numoldPos+1 ; i <= numnewPos ; i++) {
 				if(!(isBoxEmpty(oldPos.charAt(0), i))) {
 					return false;
 				}
 			}
 		}
 		else { //going backward for white, forward for black
-			for (i = numnewPos+1 ; i < numoldPos ; i++) {
+			for (i = numnewPos ; i < numoldPos ; i++) {
 				if(!(isBoxEmpty(oldPos.charAt(0), i))) {
 					return false;
 				}
