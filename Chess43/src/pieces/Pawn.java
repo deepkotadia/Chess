@@ -12,8 +12,11 @@ import chess.Chess;
  */
 public class Pawn extends Piece {
 
+	public boolean canEnPassant;
+	
 	public Pawn(String value) {
 		super(value);
+		canEnPassant = false;
 	}
 
 
@@ -63,7 +66,7 @@ public class Pawn extends Piece {
 					//pawn can only move two steps when path is clear
 					return false;
 				}
-				
+				canEnPassant = true;
 				return true;
 			}
 			else if(Math.abs(newPosnum - oldPosnum) == 1) { //one step move straight
@@ -105,7 +108,7 @@ public class Pawn extends Piece {
 					//pawn can only move two steps when path is clear
 					return false;
 				}
-				
+				canEnPassant = true;
 				//move ahead two steps
 				return true;
 			}

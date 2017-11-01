@@ -117,6 +117,7 @@ public class Chess {
 		boolean is_white_move = true; //true when it's white's move, false when it's black's move
 		boolean is_move_valid = false; //return value from is_move_valid method
 		boolean castle_success = false; //true if castling was successful, false otherwise
+		boolean EnPassant_success = false; //true if EnPassant successful, false otherwise
 		boolean draw_proposal = false; //true when one player asks the other for a draw
 		
 		Scanner sc = new Scanner(System.in);
@@ -195,6 +196,7 @@ public class Chess {
 			}
 			
 			castle_success = false;
+			EnPassant_success = false;
 			oldPos = inputstr_as_arr[0];
 			newPos = inputstr_as_arr[1];
 			piece_oldPos = board.get(oldPos);
@@ -243,6 +245,9 @@ public class Chess {
 				
 				/*Check and act if this is a castling move*/
 				castle_success = castling(oldPos, newPos);
+				
+				/*Check and act if an EnPassant move*/
+				EnPassant_success = EnPassant(oldPos, newPos, is_white_move);
 				
 			}
 			else {
@@ -293,12 +298,18 @@ public class Chess {
 				
 				
 			}
-			else if(castle_success == false) { //not a valid move, prompt to enter again
+			else if(castle_success == false && EnPassant_success == false) { //not a valid move, prompt to enter again
 				System.out.println("Illegal move, try again");
 				System.out.println();
 				continue;
 			}
 			
+			/*
+			 * check if any appropriate pawns have canEnPassant set to true, if yes, set them to false
+			 * if white's move, set black pawns' canEnPassant to false
+			 * if black's move, set white pawns' canEnPassant to false
+			 * */
+			refresh_EnPassant(is_white_move);
 			
 			/*other person's turn, so switch*/
 			if(is_white_move == true) {
@@ -396,10 +407,10 @@ public class Chess {
 					return false; //there is at least one escape for the king, not checkmate yet!
 				}
 				
-				//to deal with both te ifs being skipped; that current index will result in check
-				
+				//to deal with both the ifs being skipped; that current index will result in check
+				else {
 					continue;
-				
+				}
 			}
 		}
 		
@@ -422,9 +433,9 @@ public class Chess {
 					return false; //there is at least one escape for the king, not checkmate yet!
 				}
 				
-				
+				else {
 					continue;
-			
+				}
 			}
 		}
 		return true; //no escape routes, checkmate!!!
@@ -490,6 +501,168 @@ public class Chess {
 		return null;		
 
 	}
+	
+	
+	private static void refresh_EnPassant(boolean is_white_move) {
+		
+		Piece pawns = null;
+		Pawn singlepawn = null;
+		
+		if(is_white_move) { //set black pawns' canEnPassant to false
+			for(String currentpiece : board.keySet()) {
+				pawns = board.get(currentpiece);
+				if(currentpiece.charAt(1) == '5' && pawns.getvalue().equals("bp")) {
+					singlepawn = (Pawn) pawns;
+					singlepawn.canEnPassant = false;
+				}
+				else {
+					continue;
+				}
+			}
+		}
+		else {
+			for(String currentpiece : board.keySet()) {
+				pawns = board.get(currentpiece);
+				if(currentpiece.charAt(1) == '4' && pawns.getvalue().equals("wp")) {
+					singlepawn = (Pawn) pawns;
+					singlepawn.canEnPassant = false;
+				}
+				else {
+					continue;
+				}
+			}
+		}
+		
+	}
+	
+	
+	private static boolean EnPassant(String oldPos, String newPos, boolean is_white_move) {
+		
+		if(!(board.containsKey(oldPos)) || !(board.containsKey(newPos))) { //either of the entered positions are not in the bounds of the board
+			return false;
+		}
+		
+		Piece piece_at_oldPos = board.get(oldPos);
+		Piece piece_at_capturePos = null; //Pawn piece to be captured due to enpassant
+		Pawn pawn_at_capturePos = null;
+		String position = null; //position of piece to be captured (NOT equal to newPos in EnPassant case)
+		
+		
+		if(is_white_move) {
+			
+			if(oldPos.charAt(1) != '5' || newPos.charAt(1) != '6') { //only a white pawn in row 5 can do an enpassant capture
+				return false;
+			}
+			
+			if((newPos.charAt(0)-oldPos.charAt(0) == 1) && (newPos.charAt(1)-oldPos.charAt(1) == 1)) { //check if a diagonal move on right side
+				position = Character.toString(newPos.charAt(0)) + oldPos.charAt(1);
+				if(board.containsKey(position) == false) {
+					return false;
+				}
+				piece_at_capturePos = board.get(position);
+			} 
+			else if((oldPos.charAt(0)-newPos.charAt(0) == 1) && (newPos.charAt(1)-oldPos.charAt(1) == 1)) { //check if diagonal move on left side
+				position = Character.toString(newPos.charAt(0)) + oldPos.charAt(1);
+				if(board.containsKey(position) == false) {
+					return false;
+				}
+				piece_at_capturePos = board.get(position);
+			}
+			else {
+				return false;
+			}
+			
+			if(!(piece_at_oldPos instanceof Pawn) || !(piece_at_capturePos instanceof Pawn)) {
+				return false; //EnPassant can only involve two pawns
+			}
+			pawn_at_capturePos = (Pawn) piece_at_capturePos;
+			
+			if(pawn_at_capturePos.canEnPassant == false) {
+				return false;
+			}
+			else {
+				//move piece to newPos
+				Chess.board.put(newPos, piece_at_oldPos);
+				
+				//make oldPos an empty box
+				if(Chess.isBlackBox(oldPos.charAt(0), oldPos.charAt(1)-'0')) {
+					Chess.board.put(oldPos, new EmptySquare("##"));
+				}
+				else {
+					Chess.board.put(oldPos, new EmptySquare("  "));
+				}
+				
+				//make capturePos an empty box (capture the pawn: EnPassant!!!)
+				if(Chess.isBlackBox(position.charAt(0), position.charAt(1)-'0')) {
+					Chess.board.put(position, new EmptySquare("##"));
+				}
+				else {
+					Chess.board.put(position, new EmptySquare("  "));
+				}
+				printboard();
+				return true;
+			}
+			
+		}
+		else { //black move
+			
+			if(oldPos.charAt(1) != '4' || newPos.charAt(1) != '3') { //only a black pawn in row 4 can do an enpassant capture
+				return false;
+			}
+			
+			if((newPos.charAt(0)-oldPos.charAt(0) == 1) && (oldPos.charAt(1)-newPos.charAt(1) == 1)) {
+				position = Character.toString(newPos.charAt(0)) + oldPos.charAt(1);
+				if(board.containsKey(position) == false) {
+					return false;
+				}
+				piece_at_capturePos = board.get(position);
+			}
+			else if((newPos.charAt(0)-oldPos.charAt(0) == 1) && (oldPos.charAt(1)-newPos.charAt(1) == 1)) {
+				position = Character.toString(newPos.charAt(0)) + oldPos.charAt(1);
+				if(board.containsKey(position) == false) {
+					return false;
+				}
+				piece_at_capturePos = board.get(position);
+			}
+			else {
+				return false;
+			}
+			
+			if(!(piece_at_oldPos instanceof Pawn) || !(piece_at_capturePos instanceof Pawn)) {
+				return false; //EnPassant can only involve two pawns
+			}
+			pawn_at_capturePos = (Pawn) piece_at_capturePos;
+			
+			if(pawn_at_capturePos.canEnPassant == false) {
+				return false;
+			}
+			else {
+				//move piece to newPos
+				Chess.board.put(newPos, piece_at_oldPos);
+				
+				//make oldPos an empty box
+				if(Chess.isBlackBox(oldPos.charAt(0), oldPos.charAt(1)-'0')) {
+					Chess.board.put(oldPos, new EmptySquare("##"));
+				}
+				else {
+					Chess.board.put(oldPos, new EmptySquare("  "));
+				}
+				
+				//make capturePos an empty box (capture the pawn: EnPassant!!!)
+				if(Chess.isBlackBox(position.charAt(0), position.charAt(1)-'0')) {
+					Chess.board.put(position, new EmptySquare("##"));
+				}
+				else {
+					Chess.board.put(position, new EmptySquare("  "));
+				}
+				printboard();
+				return true;
+			}
+			
+		}
+		
+	}
+	
 	
 	private static boolean castling(String oldPos, String newPos) {
 		
