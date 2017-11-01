@@ -7,6 +7,7 @@ import chess.Chess;
 import java.util.*;
 
 /**
+ * The Knight class is an extension of the Piece class and creates a Knight Piece.
  * @author Deep Kotadia
  * @author Chinmoyi Bhushan
  *
@@ -17,8 +18,14 @@ public class Knight extends Piece {
 		super(value);
 	}
 
-
-	//@Override
+	/** isMoveValid takes in the src, destination of the piece's move and returns true if it is a valid move for Knight.
+	 * @param oldPos   is the position the piece is trying to move from
+	 * @param newPos   is the position the piece is trying to move to
+	 * 
+	 * @return true if the move is valid and false otherwise.
+	 * 
+	 */
+	
 	public boolean isMoveValid(String oldPos, String newPos) {
 		
 		/*to check if newPos is a box in the bounds of the board*/
@@ -96,6 +103,12 @@ public class Knight extends Piece {
 		
 	}
 	
+	/**
+	 * move implements the actual movement, here the Knight moves from its src to the position specified 
+	 * @param oldPos   is the src of the current Knight Piece
+	 * @param newPos   is the destination for the current Knight Piece
+	 * 
+	 */
 	
 	public void move(String oldPos, String newPos, char promopiece) {
 		Piece piece_oldPos = Chess.board.get(oldPos);
@@ -113,7 +126,7 @@ public class Knight extends Piece {
 	}
 	
 
-	//@Override
+	
 	public boolean isPathEmpty(String oldPos, String newPos) {
 		// TODO Auto-generated method stub
 		return false;

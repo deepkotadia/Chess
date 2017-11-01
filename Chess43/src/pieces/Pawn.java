@@ -6,6 +6,7 @@ package pieces;
 import chess.Chess;
 
 /**
+ * This is the Pawn Class which extends Piece and creates a Pawn Piece for the game. 
  * @author Deep Kotadia
  * @author Chinmoyi Bhushan
  *
@@ -20,7 +21,13 @@ public class Pawn extends Piece {
 	}
 
 
-	//@Override
+	/** isMoveValid takes in the src, destination of the piece's move and returns true if it is a valid move for Pawn(1 sq at a time or 2 sqs at first time).
+	 * @param oldPos is the position the piece is trying to move from
+	 * @param newPos is the position the piece is trying to move to
+	 * 
+	 * @return true if the move is valid and false otherwise.
+	 * 
+	 */
 	public boolean isMoveValid(String oldPos, String newPos) {
 		
 		/*to check if newPos is a box in the bounds of the board*/
@@ -128,6 +135,12 @@ public class Pawn extends Piece {
 		
 	}
 	
+	/**
+	 * move implements the actual movement, here the Pawn moves from its src to the position specified 
+	 * @param oldPos is the src of the current Pawn Piece
+	 * @param newPos is the destination for the current Pawn Piece
+	 * 
+	 */
 	
 	public void move(String oldPos, String newPos, char promopiece) {
 		Piece piece_oldPos = Chess.board.get(oldPos);
@@ -151,7 +164,15 @@ public class Pawn extends Piece {
 	}
 	
 
-	//@Override
+	/**
+	 * isPathEmpty checks if the path is clear for the Pawn to move from its src to its destination.
+	 * @param oldPos  old position
+	 * @param newPos  new position
+	 * 
+	 * @return true if the path is clear otherwise false
+	 * 
+	 */
+	
 	public boolean isPathEmpty(String oldPos, String newPos) {
 		int i;
 		int numoldPos = oldPos.charAt(1) - '0';
@@ -175,6 +196,14 @@ public class Pawn extends Piece {
 		return true;
 	}
 	
+	/**
+	 * isBoxEmpty is a helper for isPathEmpty, to check if the box the Pawn is moving into is empty or not. 
+	 * @param alpha  column
+	 * @param num    row
+	 * 
+	 * @return true if that particular box is empty and false otherwise
+	 * 
+	 */
 	private boolean isBoxEmpty(char alpha, int num) {
 		String filerank = alpha + "" + num;
 		
@@ -185,7 +214,13 @@ public class Pawn extends Piece {
 		return false;
 	}
 	
-	
+	/**
+	 * pawn_promotion performs the function of checking for and executing the promotion rule in Chess. 
+	 * 
+	 * @param newPos new position
+	 * @param promopiece is the piece the player wants to promote the pawn to, by default it is Queen. 
+	 * 
+	 */
 	private void pawn_promotion(String newPos, char promopiece) {
 		int newPosnum = newPos.charAt(1)-'0';
 		

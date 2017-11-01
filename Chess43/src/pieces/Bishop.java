@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * The Bishop class is an extension of the Piece class and creates a Bishop Piece.
  * @author Deep Kotadia
  * @author Chinmoyi Bhushan
  *
@@ -19,6 +20,14 @@ public class Bishop extends Piece{
 		super(value);
 	}
 
+
+	/** isMoveValid takes in the src, destination of the piece's move and returns true if it is a valid move for Bishop.
+	 * @param oldPos is the position the piece is trying to move from
+	 * @param newPos is the position the piece is trying to move to
+	 * 
+	 * @return true if the move is valid or false if not. 
+	 * 
+	 */
 
 	public boolean isMoveValid(String oldPos, String newPos) {
 		
@@ -71,6 +80,13 @@ public class Bishop extends Piece{
 		
 	}
 	
+	/**
+	 * move implements the actual movement, here the Bishop moves from its src to the position specified 
+	 * @param oldPos is the src of the current Bishop Piece
+	 * @param newPos is the destination for the current Bishop Piece
+	 * 
+	 */
+	
 	
 	public void move(String oldPos, String newPos, char promopiece) {
 		Piece piece_oldPos = Chess.board.get(oldPos);
@@ -87,6 +103,14 @@ public class Bishop extends Piece{
 		}
 	}
 
+	/**
+	 * isPathEmpty checks if the path is clear for the Bishop to move from its src to its destination.
+	 * @param oldPos   old position
+	 * @param newPos   new position
+	 * 
+	 * @return true if the path is clear otherwise false
+	 * 
+	 */
 	
 	public boolean isPathEmpty(String oldPos, String newPos) {
 		List<String> boxes=getIndicesInBetween(oldPos, newPos);
@@ -99,6 +123,14 @@ public class Bishop extends Piece{
 		return true;
 	}
 	
+	/**
+	 * getIndicesinBetween is getting the list of indices in between the old position and new position, it is a helper for isPathEmpty.
+	 * @param oldPos   old position
+	 * @param newPos   new position
+	 * 
+	 * @return List  containing the indices of the boxes between the src and the dst. 
+	 * 
+	 */
 	
 	public static List<String> getIndicesInBetween(String oldPos, String newPos) {
 		//@requires oldPos and newPos to form a diagonal path.

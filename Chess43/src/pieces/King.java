@@ -6,6 +6,7 @@ package pieces;
 import chess.Chess;
 
 /**
+ * The King class extends Piece to create an instance of the King Piece. 
  * @author Deep Kotadia
  * @author Chinmoyi Bhushan
  *
@@ -16,6 +17,13 @@ public class King extends Piece{
 		super(value);
 	}
 
+	/** isMoveValid takes in the src, destination of the piece's move and returns true if it is a valid move for King.
+	 * @param oldPos is the position the piece is trying to move from
+	 * @param newPos is the position the piece is trying to move to
+	 * 
+	 * @return true if the move is valid and false otherwise.
+	 * 
+	 */
 
 	public boolean isMoveValid(String oldPos, String newPos) {
 		
@@ -77,6 +85,12 @@ public class King extends Piece{
 			
 	}
 	
+	/**
+	 * move implements the actual movement, here the King moves from its src to the position specified 
+	 * @param oldPos   is the src of the current King Piece
+	 * @param newPos   is the destination for the current King Piece
+	 * 
+	 */
 	
 	public void move(String oldPos, String newPos, char promopiece) {
 		Piece piece_oldPos = Chess.board.get(oldPos);

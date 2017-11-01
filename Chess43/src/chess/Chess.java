@@ -4,6 +4,7 @@
 package chess;
 
 /**
+ * Chess contains the main method and is where the game is running from. 
  * @author Deep Kotadia
  * @author Chinmoyi Bhushan
  *
@@ -14,6 +15,12 @@ import pieces.*;
 public class Chess {
 
 	public static HashMap<String, Piece> board = new HashMap<String, Piece>(70);
+	
+	/**
+	 * initboard is a function to setup the board with the pieces on it. 
+	 * It takes no parameters and does not have a return type.
+	 * 
+	 */
 	
 	public static void initboard() {
 		
@@ -73,7 +80,13 @@ public class Chess {
 		}
 	}
 	
-	
+	/**
+	 * isBlackBox is to check if a box on the board is a black box or not. 
+	 * @param  alpha  column
+	 * @param  num    row
+	 * 
+	 * @return   true if the box/square is empty and false otherwise
+	 */
 	public static boolean isBlackBox(char alpha, int num) {
 		
 		if((num == 1 || num == 3 || num == 5 || num == 7) && (alpha == 'a' || alpha == 'c' || alpha == 'e' || alpha == 'g')) {
@@ -85,6 +98,10 @@ public class Chess {
 		return false;
 	}
 	
+	/**
+	 * printboard prints the board whenever required.
+	 * It has no params and no return type.
+	 */
 	
 	public static void printboard() {
 		for(int num = 8; num >= 1; num--) {
@@ -100,10 +117,6 @@ public class Chess {
 
 	}
 	
-	
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		
 		initboard();
@@ -334,14 +347,18 @@ public class Chess {
 
 	}
 	
-	/*function to check state of the game after every legal move
-	 * returns 0 if game is still on
-	 * returns 1 if checkmate/stalemate, game over
-	 * */
+	/*function to check state of the game after every legal move */
 	public static int state_of_game() {
 		return 0;
 	}
 	
+	/**
+	 * isCheckmate is a function to check if the king at its current position can be captured by the opponent and has no escape route. 
+	 * @param   color       to specify white king or black king
+	 * @param   kingPos     is the position of the King that can be captured
+	 * 
+	 * @return   true if the no escape for the king and it can be captured, else false. 
+	 */
 	
 	private static boolean isCheckmate(char color, String kingPos) {
 		ArrayList<String> possiblemoves = new ArrayList<String>();
@@ -434,13 +451,21 @@ public class Chess {
 				}
 				
 				else {
-					continue;
+					return true;
 				}
 			}
 		}
 		return true; //no escape routes, checkmate!!!
 	}
 	
+	
+	/**
+	 * isCheck is a function to check if the king at its current position can be captured by the opponent if not moved
+	 * @param  kingvalue       which king it is
+	 * @param  kingposition    is the position of that king
+	 * 
+	 * @return  true if the has an escape but if not moved will be captured, else false. 
+	 */
 	
 	private static boolean isCheck(String kingvalue, String kingposition) {
 		Piece opponentPiece=null;
@@ -535,6 +560,13 @@ public class Chess {
 		
 	}
 	
+	/**
+	 * EnPassant performs the En Passant rule of chess, where the pawn can be killed by the opponent pawn if it uses the 2 boxes move to prevent the capture.
+	 * @param oldPos
+	 * @param newPos
+	 * 
+	 * @return  true    if En Passant occurs and false otherwise. 
+	 */
 	
 	private static boolean EnPassant(String oldPos, String newPos, boolean is_white_move) {
 		
@@ -662,6 +694,14 @@ public class Chess {
 		}
 		
 	}
+	
+	/**
+	 * castling performs the castling rule of chess for between the King and Rook. 
+	 * @param oldPos
+	 * @param newPos
+	 * 
+	 * @return  true if castled and false otherwise.
+	 */
 	
 	
 	private static boolean castling(String oldPos, String newPos) {

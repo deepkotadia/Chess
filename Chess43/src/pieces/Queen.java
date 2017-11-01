@@ -9,6 +9,7 @@ import java.util.List;
 import chess.Chess;
 
 /**
+ * The Queen Class extends Piece to create a Queen piece. 
  * @author Deep Kotadia
  * @author Chinmoyi Bhushan
  *
@@ -20,7 +21,13 @@ public class Queen extends Piece {
 	}
 
 
-	//@Override
+	/** isMoveValid takes in the src,destination of the piece's move and returns true if it is a valid move for Queen.
+	 * @param oldPos is the position the piece is trying to move from
+	 * @param newPos is the position the piece is trying to move to
+	 * 
+	 * @return true if the move is valid or false if not. 
+	 * 
+	 */
 	public boolean isMoveValid(String oldPos, String newPos) {
 		
 		/*to check if newPos is a box in the bounds of the board*/
@@ -79,6 +86,12 @@ public class Queen extends Piece {
 					
 	}
 	
+	/**
+	 * move implements the actual movement, here the Queen moves from its src to the position specified 
+	 * @param oldPos is the src of the current Queen Piece
+	 * @param newPos is the destination for the current Queen Piece
+	 * 
+	 */
 	
 	public void move(String oldPos, String newPos, char promopiece) {
 		Piece piece_oldPos = Chess.board.get(oldPos);
@@ -96,7 +109,14 @@ public class Queen extends Piece {
 	}
 	
 
-	//@Override
+	/**
+	 * isPathEmpty checks if the path is clear for the Queen to move from its src to its destination.
+	 * @param oldPos  old position
+	 * @param newPos  new position
+	 * 
+	 * @return true if the path is clear otherwise false
+	 * 
+	 */
 	public boolean isPathEmpty(String oldPos, String newPos) {
 		
 		if ((Math.abs(oldPos.charAt(0) - newPos.charAt(0)) == Math.abs (oldPos.charAt(1) - newPos.charAt(1)))) { //it is a diagonal move:
@@ -111,6 +131,14 @@ public class Queen extends Piece {
 		return false;
 	}
 	
+	/**
+	 * isBishopPathEmpty is a helper for isPathEmpty checks if the path is clear for the Queen to implement Rook move from its src to its destination.
+	 * @param oldPos old position
+	 * @param newPos new position
+	 * 
+	 * @return true if the path is clear otherwise false
+	 * 
+	 */
 	public static boolean isBishopPathEmpty(String oldPos, String newPos) {
 		List<String> boxes=getBoxesInBetween(oldPos, newPos);
 		
@@ -122,7 +150,7 @@ public class Queen extends Piece {
 		return true;
 	}
 	
-	public static List<String> getBoxesInBetween(String oldPos, String newPos) {
+	private static List<String> getBoxesInBetween(String oldPos, String newPos) {
 		//@requires oldPos and newPos to form a diagonal path.
 		//e.g. (A1, C3) is valid. (E4, C6) is valid. (G6, D3) is valid.
 		
@@ -143,6 +171,15 @@ public class Queen extends Piece {
 		
 		return indicesList;
 	}
+	
+	/**
+	 * isRookPathEmpty is a helper for isPathEmpty and it checks if the path is clear for the Queen to implement Rook move from its src to its destination.
+	 * @param oldPos  old position
+	 * @param newPos  new position
+	 * 
+	 * @return true if the path is clear otherwise false
+	 * 
+	 */
 	
 	public static boolean isRookPathEmpty(String oldPos, String newPos) {
 		if (oldPos.charAt(0) == newPos.charAt(0)) {

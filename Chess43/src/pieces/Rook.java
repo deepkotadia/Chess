@@ -4,6 +4,7 @@
 package pieces;
 
 /**
+ * The Rook class is an extension of the Piece class and creates a Rook Piece.
  * @author Deep Kotadia
  * @author Chinmoyi Bhushan
  *
@@ -18,7 +19,14 @@ public class Rook extends Piece {
 	}
 
 
-	//@Override
+	/** isMoveValid takes in the src,destination of the piece's move and returns true if it is a valid move for Rook.
+	 * @param oldPos is the position the piece is trying to move from
+	 * @param newPos is the position the piece is trying to move to
+	 * 
+	 * @return true if the move is valid or false if not. 
+	 * 
+	 */
+	
 	public boolean isMoveValid(String oldPos, String newPos) {
 		
 		/*to check if newPos is a box in the bounds of the board*/
@@ -72,6 +80,13 @@ public class Rook extends Piece {
 	}
 	
 	
+	/**
+	 * move implements the actual movement, here the Rook moves from its src to the position specified 
+	 * @param oldPos is the src of the current Rook Piece
+	 * @param newPos is the destination for the current Rook Piece
+	 * 
+	 */
+	
 	public void move(String oldPos, String newPos, char promopiece) {
 		Piece piece_oldPos = Chess.board.get(oldPos);
 		
@@ -88,7 +103,15 @@ public class Rook extends Piece {
 	}
 	
 
-	//@Override
+	/**
+	 * isPathEmpty checks if the path is clear for the Rook to move from its src to its destination.
+	 * @param oldPos old position
+	 * @param newPos new position
+	 * 
+	 * @return true if the path is clear otherwise false
+	 * 
+	 */
+	
 	public boolean isPathEmpty(String oldPos, String newPos) {
 		if (oldPos.charAt(0) == newPos.charAt(0)) {
 			int i;
@@ -133,6 +156,14 @@ public class Rook extends Piece {
 		//at this point, the path is smooth, clear, empty, and good to go!!!
 		return true;
 	}
+	
+	/**
+	 * isBoxEmpty is a helper function for isPathEmpty to check if the boxes in the path of the move are empty.
+	 * @param alpha  column
+	 * @param num    row
+	 * 
+	 * @return  true if the box/square is empty, else false. 
+	 */
 	
 	private static boolean isBoxEmpty(char alpha, int num) {
 		String filerank = alpha + "" + num;
