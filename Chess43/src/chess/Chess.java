@@ -649,7 +649,7 @@ public class Chess {
 				}
 				piece_at_capturePos = board.get(position);
 			}
-			else if((newPos.charAt(0)-oldPos.charAt(0) == 1) && (oldPos.charAt(1)-newPos.charAt(1) == 1)) {
+			else if((oldPos.charAt(0)-newPos.charAt(0) == 1) && (oldPos.charAt(1)-newPos.charAt(1) == 1)) {
 				position = Character.toString(newPos.charAt(0)) + oldPos.charAt(1);
 				if(board.containsKey(position) == false) {
 					return false;
